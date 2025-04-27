@@ -1,0 +1,7 @@
+langchain==0.3.24
+langchain-community==0.3.22
+langchain-core==0.3.56
+langchain-openai==0.3.14
+langchain-text-splitters==0.3.8
+openai==1.76.0
+streamlit==1.24.0
