@@ -10,7 +10,7 @@ from config.utils import join_documents
 def create_pipeline_with_memory():
     """Configura o pipeline RAG com suporte a memória."""
     vectorstore = get_vectorstore()
-    retriever = vectorstore.as_retriever(search_type='similarity', search_kwargs={'k': 5, 'fetch_k': 20})
+    retriever = vectorstore.as_retriever(search_type='similarity', search_kwargs={'k': 19, 'fetch_k': 55})
 
     # Preparação do conteúdo para o modelo
     rag_chain_content_preparation = RunnableParallel({
