@@ -7,7 +7,8 @@ from dotenv import load_dotenv, find_dotenv
 
 _ = load_dotenv(find_dotenv())
 
-MARKDOWN_PATH = "Iniciativas.md"
+# Configurações de caminho e arquivos
+MARKDOWN_PATH = "documentation/Iniciativas.md"
 VECTORSTORE_DIR = "vectorstore"
 FAISS_INDEX_PATH = os.path.join(VECTORSTORE_DIR, "faiss_index")
 
@@ -48,6 +49,7 @@ def get_vectorstore():
             print(f"❌ Erro ao carregar o arquivo Markdown: {e}")
             raise
 
+        # Processa o markdown em documentos
         documents = []
         unidades = re.split(r"(## Unidade:)", markdown_text)
         if len(unidades) <= 1:

@@ -64,8 +64,8 @@ Certifique-se de ter as seguintes ferramentas instaladas:
 2. **Crie e ative um ambiente virtual**:
    ```bash
    python -m venv venv
-   source venv/bin/activate   # Para Linux/Mac
-   venv\Scripts\activate      # Para Windows
+   source venv/bin/activate
+   venv\Scripts\activate
    ```
 
 3. **Instale as dependências**:

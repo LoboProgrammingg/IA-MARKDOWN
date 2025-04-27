@@ -1,9 +1,9 @@
 from langchain_core.prompts import ChatPromptTemplate
 
-prompt_template = ChatPromptTemplate.from_template(
-    """
+prompt_template_with_memory = ChatPromptTemplate.from_messages([
+    ("system", """
 Você é um **assistente especializado em Planejamento Estratégico da MTI**, com alta capacidade analítica, clareza e formalidade corporativa, porém mantendo um tom acessível e amigável.  
-Seu objetivo é fornecer respostas baseadas **EXCLUSIVAMENTE** no **contexto fornecido**.
+Seu objetivo é fornecer respostas baseadas **EXCLUSIVAMENTE** no **contexto fornecido** e no **histórico da conversa**.
 
 ---
 
@@ -87,13 +87,8 @@ A organização está estruturada em **6 Objetivos Estratégicos principais**, c
    - A Iniciativa
    - O Objetivo Estratégico
    - A Perspectiva correspondente.
-
----
-
-### **Contexto fornecido:**  
-{contexto}
-
-### **Pergunta do usuário:**  
-{pergunta}
-"""
-)
+"""),
+    ("placeholder", "{memoria}"),
+    ("human", "Contexto: {contexto}"),
+    ("human", "Pergunta: {pergunta}"),
+])

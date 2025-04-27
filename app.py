@@ -1,5 +1,6 @@
 import re
 import streamlit as st
+import uuid  # Para gerar um identificador único para cada sessão
 from pipeline.pipeline import get_response_stream
 
 # Configurações da página
@@ -104,7 +105,11 @@ def handle_user_input(user_input):
     response_text = ""
 
     try:
-        for chunk in get_response_stream(user_input):
+        # Obtém o ID da sessão
+        session_id = st.session_state.session_id
+
+        # Chama o pipeline com streaming
+        for chunk in get_response_stream(user_input, session_id):
             response_text += chunk
             processed_text = process_response_text(response_text)
             placeholder.markdown(f'<div class="chat-bubble ai">{processed_text}</div>', unsafe_allow_html=True)
@@ -118,9 +123,13 @@ def handle_user_input(user_input):
 set_page_style()
 st.markdown('<div class="chat-title">🤖 MTI Assistente Estratégico</div>', unsafe_allow_html=True)
 
-# Iniciar o estado da sessão se não existir
+# Inicializa o estado da sessão
 if "messages" not in st.session_state:
     st.session_state.messages = []
+
+# Gera um ID único para a sessão, se não existir
+if "session_id" not in st.session_state:
+    st.session_state.session_id = str(uuid.uuid4())  # Gera um UUID único para a sessão
 
 # Exibe o chat
 display_chat()
@@ -129,4 +138,3 @@ display_chat()
 user_input = st.chat_input("Digite sua pergunta ...")
 if user_input:
     handle_user_input(user_input)
-
