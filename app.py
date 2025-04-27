@@ -1,6 +1,6 @@
 import re
 import streamlit as st
-from pipeline import get_response_stream
+from pipeline.pipeline import get_response_stream
 
 # Configurações da página
 st.set_page_config(page_title="MTI Assistente Estratégico", page_icon="🤖", layout="wide")
