@@ -1,6 +1,6 @@
 import re
 import streamlit as st
-import uuid  # Para gerar um identificador único para cada sessão
+import uuid
 from pipeline.pipeline import get_response_stream
 
 # Configurações da página
@@ -116,6 +116,7 @@ def handle_user_input(user_input):
     except Exception as e:
         response_text = "Desculpe, ocorreu um erro ao processar sua solicitação."
         st.error(f"Erro: {e}")
+        print(f"[DEBUG] Erro durante o processamento: {e}")
 
     st.session_state.messages.append({"role": "ai", "content": response_text})
 
