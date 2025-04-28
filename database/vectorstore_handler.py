@@ -9,20 +9,17 @@ from config.config import MARKDOWN_PATH, VECTORSTORE_DIR, FAISS_INDEX_PATH
 _ = load_dotenv(find_dotenv())
 
 def load_markdown_as_text(filepath):
-    """Carrega o conteúdo do arquivo Markdown como texto."""
     if not os.path.exists(filepath):
         raise FileNotFoundError(f"Arquivo não encontrado: {filepath}")
     with open(filepath, 'r', encoding='utf-8') as f:
         return f.read()
 
 def needs_update(markdown_path, vectorstore_path):
-    """Verifica se o vectorstore precisa ser atualizado."""
     if not os.path.exists(vectorstore_path):
         return True
     return os.path.getmtime(markdown_path) > os.path.getmtime(vectorstore_path)
 
 def normalize_unidade(unidade_name):
-    """Normaliza o nome da unidade removendo sufixos desnecessários."""
     return unidade_name.split('_')[0] if '_' in unidade_name else unidade_name
 
 def process_markdown_to_documents(markdown_text):
@@ -40,7 +37,6 @@ def process_markdown_to_documents(markdown_text):
     return documents
 
 def create_or_update_vectorstore():
-    """Cria ou atualiza o vectorstore a partir do arquivo Markdown."""
     print("🔄 Alterações detectadas no arquivo. Atualizando o vectorstore...")
     os.makedirs(VECTORSTORE_DIR, exist_ok=True)
 
@@ -57,7 +53,6 @@ def create_or_update_vectorstore():
     return vectorstore
 
 def get_vectorstore():
-    """Carrega ou cria o vectorstore baseado no arquivo Markdown."""
     if needs_update(MARKDOWN_PATH, FAISS_INDEX_PATH):
         return create_or_update_vectorstore()
 
