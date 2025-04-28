@@ -9,7 +9,7 @@ from config.utils import join_documents
 
 def create_pipeline_with_memory():
     vectorstore = get_vectorstore()
-    retriever = vectorstore.as_retriever(search_type='similarity', search_kwargs={'k': 16, 'fetch_k': 20})
+    retriever = vectorstore.as_retriever(search_type='similarity', search_kwargs={'k': 18, 'fetch_k': 22})
 
     rag_chain_content_preparation = RunnableParallel({
         'pergunta': lambda x: x['pergunta'],
