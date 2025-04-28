@@ -7,7 +7,7 @@ O **Assistente Estratégico** é uma aplicação avançada baseada em Inteligên
 ## 🚀 Funcionalidades Principais
 
 - **Análise Contextual Inteligente**: As respostas são geradas com base na similaridade semântica de documentos fornecidos, garantindo precisão e relevância.
-- **Pipeline Modular e Personalizado**: Configurado para processar consultas e buscar contextos relevantes de forma eficiente.
+- **Pipeline Modular e Personalizado**: Configurado para processar consultas e buscar contextos relevantes de forma eficaz.
 - **Interface de Usuário Intuitiva**: Desenvolvida com `Streamlit`, oferecendo estilização avançada e experiência interativa.
 - **Atualização Automática de Dados**: Detecta alterações em documentos e recria o vetor FAISS automaticamente, mantendo os dados atualizados.
 
