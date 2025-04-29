@@ -7,3 +7,6 @@ __pycache__
 documentation/Iniciativas.md
 
 vectorstore
+
+vectorstore/faiss_index
+

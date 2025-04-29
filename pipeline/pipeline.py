@@ -20,9 +20,7 @@ def create_pipeline_with_memory():
     core_rag_chain = (
         rag_chain_content_preparation
         | prompt_template_with_memory
-        | ChatOpenAI(
-            model='gpt-4o-mini', temperature=0.2, max_tokens=7000, model_kwargs={"stream": True}
-        )
+        | ChatOpenAI(model='gpt-4o-mini', temperature=0.2, max_tokens=7000, model_kwargs={"stream": True})
         | StrOutputParser()
     )
 
