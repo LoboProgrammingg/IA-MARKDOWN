@@ -9,7 +9,7 @@ from config.utils import join_documents
 
 def create_pipeline_with_memory():
     vectorstore = get_vectorstore()
-    retriever = vectorstore.as_retriever(search_type='similarity', search_kwargs={'k': 18, 'fetch_k': 22})
+    retriever = vectorstore.as_retriever(search_type='similarity', search_kwargs={'k': 14, 'fetch_k': 25})
 
     rag_chain_content_preparation = RunnableParallel({
         'pergunta': lambda x: x['pergunta'],
@@ -20,7 +20,7 @@ def create_pipeline_with_memory():
     core_rag_chain = (
         rag_chain_content_preparation
         | prompt_template_with_memory
-        | ChatOpenAI(model='gpt-4o-mini', temperature=0.2, max_tokens=5500, model_kwargs={"stream": True})
+        | ChatOpenAI(model='gpt-4o-mini', temperature=0.2, max_tokens=4000, model_kwargs={"stream": True})
         | StrOutputParser()
     )
 
