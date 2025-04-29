@@ -1,19 +1,19 @@
 # Planejamento Estratégico da MTI
 
 ## Objetivos Estratégicos
-1. **Objetivo 1**: Elevar o nível de satisfação do cliente e de imagem institucional.  
+1. **Objetivo 1**: Elevar o nível de satisfação do cliente e de imagem institucional.
    - **Indicador Estratégico**: Nível de satisfação do cliente com as soluções entregues
    - **Indicador Estratégico**: Índice de satisfação e imagem
-2. **Objetivo 2**: Elevar o faturamento.  
+2. **Objetivo 2**: Elevar o faturamento.
    - **Indicadore Estratégico**: Valor do faturamento (R$ em Milhões)
-3. **Objetivo 3**: Aperfeiçoar a Governança Corporativa (IMGG).  
+3. **Objetivo 3**: Aperfeiçoar a Governança Corporativa (IMGG).
    - **Indicadore Estratégico**: Índice de Maturidade de Gestão e Governança (IMGG)
    - **Indicador Estratégico**: Índice de Maturidade de Gestão e Governança (iESGo)
 4. **Objetivo 4**: Garantir alta disponibilidade das soluções de Tecnologia da Informação e Comunicação.  
    - **Indicador Estratégico**: % de disponibilidade das soluções de Tecnologia da Informação e Comunicação
-5. **Objetivo 5**: Garantir adequação à Proteção de Dados.  
+5. **Objetivo 5**: Garantir adequação à Proteção de Dados.
    - **Indicadores Estratégicos**: Índice de conformidade com LGPD
-6. **Objetivo 6**: Promover a satisfação do colaborador e aumentar suas competências, habilidades e atitudes.  
+6. **Objetivo 6**: Promover a satisfação do colaborador e aumentar suas competências, habilidades e atitudes.
    - **Indicadore Estratégico**: % de satisfação dos colaboradores
    - **Indicador Estratégico**: Percentual de pessoas com 100% de seu Plano de Desenvolvimento Individual executado(sede)
 
