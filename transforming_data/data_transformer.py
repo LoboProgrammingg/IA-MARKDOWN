@@ -31,6 +31,8 @@ def csv_to_markdown(csv_file, output_file):
                             iniciativa = row["Iniciativa"]
                             if "Risco Estratégico" in iniciativa:
                                 md_file.write(f"- **Risco Estratégico**: {iniciativa}\n")
+                            if "Plano de Negócio" in iniciativa:
+                                md_file.write(f'- **Plano de Negócio**: {iniciativa}\n')
                             else:
                                 md_file.write(f"- **Iniciativa**: {iniciativa}\n")
                         md_file.write("\n")

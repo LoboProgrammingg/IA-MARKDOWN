@@ -12,6 +12,8 @@ vectorstore
 
 vectorstore/faiss_index
 
+transforming_data/client_secrets.json
+
 transforming_data/documentation/dados.csv
 
-transforming_data/dados.md
+transforming_data/documentation/dados.md
