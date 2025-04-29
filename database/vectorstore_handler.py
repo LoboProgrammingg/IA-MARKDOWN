@@ -31,6 +31,18 @@ def process_markdown(markdown_text, filepath):
             unidade_name = unidade_content.split('\n', 1)[0].split('_')[0].strip()
             combined_text = f"## Unidade: {unidade_name}\n{unidade_content.strip()}"
             documents.append(Document(page_content=combined_text, metadata={"unidade": unidade_name}))
+
+    elif "riscos_operacionais.md" in filepath:
+        unidades = re.split(r"(## Riscos:)", markdown_text)
+        if len(unidades) <= 1:
+            raise ValueError("❌ O arquivo Markdown não possui riscos no formato esperado.")
+
+        for i in range(1, len(unidades), 2):
+            risco_content = unidades[i + 1]
+            risco_name = risco_content.split('\n', 1)[0].split('_')[0].strip()
+            combined_text = f"## Riscos: {risco_name}\n{risco_content.strip()}"
+            documents.append(Document(page_content=combined_text, metadata={"risco": risco_name}))
+
     else:
         sections = re.split(r"(## .+)", markdown_text)
         if len(sections) <= 1:
