@@ -10,21 +10,22 @@ def create_or_update_vectorstore():
     print("🔄 Atualizando o vectorstore...")
     os.makedirs(VECTORSTORE_DIR, exist_ok=True)
 
-    if not MARKDOWN_PATH.endswith(".md") or not os.path.isfile(MARKDOWN_PATH):
-        raise ValueError(f"❌ Caminho inválido para arquivo Markdown: {MARKDOWN_PATH}")
+    all_documents = []
 
-    markdown_text = load_markdown(MARKDOWN_PATH)
+    for filename in os.listdir(MARKDOWN_PATH):
+        full_path = os.path.join(MARKDOWN_PATH, filename)
 
-    if "Iniciativas.md" in MARKDOWN_PATH:
-        documents = process_iniciativas_markdown(markdown_text, MARKDOWN_PATH)
-    elif "riscos_operacionais.md" in MARKDOWN_PATH:
-        documents = process_riscos_markdown(markdown_text, MARKDOWN_PATH)
-    else:
-        raise ValueError("❌ Tipo de arquivo Markdown não reconhecido.")
+        if not filename.endswith(".md"):
+            continue
 
-    index_path = os.path.join(VECTORSTORE_DIR, "full_index")
-    FAISS.from_documents(documents, OpenAIEmbeddings(model='text-embedding-3-large')).save_local(index_path)
-    print(f"✅ Vectorstore atualizado e salvo em {index_path}.")
+        markdown_text = load_markdown(full_path)
+
+        if "Iniciativas.md" in filename:
+            all_documents += process_iniciativas_markdown(markdown_text, full_path)
+
+    full_index_path = os.path.join(VECTORSTORE_DIR, "full_index")
+    FAISS.from_documents(all_documents, OpenAIEmbeddings(model='text-embedding-3-large')).save_local(full_index_path)
+    print(f"✅ Vectorstore único atualizado e salvo em {full_index_path}.")
 
 def get_vectorstore():
     if needs_update(MARKDOWN_PATH, FAISS_INDEX_PATH):
