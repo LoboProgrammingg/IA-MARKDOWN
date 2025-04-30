@@ -9,7 +9,10 @@ from config.utils import join_documents
 
 def create_pipeline_with_memory():
     vectorstore = get_vectorstore()
-    retriever = vectorstore.as_retriever(search_type='similarity', search_kwargs={'k': 6, 'fetch_k': 25})
+    retriever = vectorstore.as_retriever(
+        search_type='similarity',
+        search_kwargs={'k': 6, 'fetch_k': 25}
+)
 
     rag_chain_content_preparation = RunnableParallel({
         'pergunta': lambda x: x['pergunta'],
@@ -20,7 +23,11 @@ def create_pipeline_with_memory():
     core_rag_chain = (
         rag_chain_content_preparation
         | prompt_template_with_memory
-        | ChatOpenAI(model='gpt-4o-mini', temperature=0.2, max_tokens=4000, model_kwargs={"stream": True})
+        | ChatOpenAI(
+            model='gpt-4o-mini',
+            temperature=0.2,
+            max_tokens=4000,
+            model_kwargs={"stream": True})
         | StrOutputParser()
     )
 
@@ -34,7 +41,13 @@ def create_pipeline_with_memory():
 
 def get_response_stream(question: str, session_id: str):
     print(f"[DEBUG] Iniciando processamento para a pergunta: {question} | Sessão: {session_id}")
+
     chain = create_pipeline_with_memory()
-    response = chain.stream({'pergunta': question, 'memoria': []}, config={'configurable': {'session_id': session_id}})
+
+    response = chain.stream(
+        {'pergunta': question, 'memoria': []},
+        config={'configurable': {'session_id': session_id}}
+)
+    
     print(f"[DEBUG] Processamento concluído para a sessão: {session_id}")
     return response
