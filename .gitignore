@@ -4,16 +4,12 @@ venv
 
 __pycache__
 
-documentation/Iniciativas.md
-
-documentation/instrucoes.md
+documentation/
 
 vectorstore
 
-vectorstore/faiss_index
+vectorstore/
 
 transforming_data/client_secrets.json
 
-transforming_data/documentation/dados.csv
-
-transforming_data/documentation/dados.md
+transforming_data/documentation/
