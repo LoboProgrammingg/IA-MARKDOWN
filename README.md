@@ -19,27 +19,42 @@ A organização do projeto segue uma estrutura modular e escalável:
 
 ```plaintext
 project/
-│
+├── .gitignore
+├── README.md
+├── app.py
+├── requirements.txt
 ├── config/
-│   └── config.py                   # Configurações e variáveis de ambiente
+│   ├── __init__.py
+│   ├── config.py
+│   └── utils.py
 ├── database/
-│   └── vectorstore_handler.py      # Gerenciamento de vectorstore (FAISS)
+│   ├── __init__.py
+│   ├── file_handler.py
+│   ├── metadata/
+│   │   ├── markdown_iesgo.py
+│   │   ├── markdown_imgg.py
+│   │   └── markdown_processor_iniciativas.py
+│   ├── vectorstore_handler.py
+│   └── vectorstore_handler_multiples.py
 ├── documentation/
-│   └── arquivo.md                  # Documentos Markdown para análise
+│   └── ...
+├── memory/
+│   ├── __init__.py
+│   └── memory_handler.py
 ├── pipeline/
-│   └── pipeline.py                 # Configuração do pipeline de processamento
+│   ├── __init__.py
+│   ├── pipeline.py
 ├── prompt/
-│   └── prompt_template.py          # Template do prompt para a IA
-├── vectorstore/
-│   └── faiss_index/
-│       ├── index.faiss             # Arquivo FAISS index
-│       └── index.pkl               # Metadados do FAISS
-├── app.py                          # Aplicação principal Streamlit
-├── README.md                       # Documentação do projeto
-├── venv                            # Ambiente virtual (recomendado)
-├── .env                            # Variáveis de ambiente
-├── .gitignore                      # Arquivos ignorados pelo git
-└── requirements.txt                # Dependências do projeto
+│   ├── __init__.py
+│   └── prompt_template.py
+├── retriever/
+│   ├── __init__.py
+│   └── retrievers.py
+├── transforming_data/
+│   ├── __init__.py
+│   ├── data_transformer.py
+│   ├── data_transformer_google.py
+│   └── index_metadata.py
 ```
 
 ---
