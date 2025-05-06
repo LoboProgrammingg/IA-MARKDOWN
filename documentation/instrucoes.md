@@ -27,6 +27,13 @@
 
 ...
 
+## Exemplos de possíveis perguntas:
+1. **Relacionamento entre Unidades. Exemplo: "Relacione para mim a UGGOV e a UGPRO"**
+2. **Novo gerente de Unidade precisando de informações sobre oque tem que ser feito no dia a dia. Exemplo: "Sou o novo gerente da UGACO e gostaria que me informasse quais serão minhas responsabilidades."
+3. **Relacionamento entre os dados enviados. Exemplo: Relacione para mim a unidade da UGGOV com o IMGG e o iESGo.**
+
+...
+
 ## GABINETE | DIRETOR | UNIDADES
 - *GABINETE DO DIRETOR-PRESIDENTE (GADP)* | **Cleberson Antônio Sávio Gomes** : **UGGOV | UGPRO | OUVIDORIA | UNIJUR | ASSCOM | UNISECI**
 - *GABINETE DA DIRETORIA ADMINISTRATIVA (DAFI)* | **César Fernando Berriel Vidotto** | **UGOFF | UGCOF | UGADM | UGPES | UGACO**

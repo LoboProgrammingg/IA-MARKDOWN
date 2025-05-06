@@ -38,7 +38,7 @@ def create_pipeline_with_separated_vectorstores():
         | ChatOpenAI(
             model='gpt-4o-mini',
             temperature=0.1,
-            max_tokens=4500,
+            max_tokens=6000,
             model_kwargs={"stream": True}
         )
         | StrOutputParser()
