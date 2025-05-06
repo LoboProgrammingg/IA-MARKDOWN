@@ -4,27 +4,39 @@ from langchain_openai import OpenAIEmbeddings
 from config.config import MARKDOWN_PATH, VECTORSTORE_DIR, FAISS_INDEX_PATH
 from database.file_handler import load_markdown, needs_update
 from database.metadata.markdown_processor_iniciativas import process_iniciativas_markdown
-from database.metadata.markdown_processor_riscos import process_riscos_markdown
+from database.metadata.markdown_iesgo import process_iesgo_markdown
+from database.metadata.markdown_imgg import process_imgg_markdown
+
 
 def create_or_update_vectorstore():
     print("🔄 Atualizando o vectorstore...")
     os.makedirs(VECTORSTORE_DIR, exist_ok=True)
 
-    if not MARKDOWN_PATH.endswith(".md") or not os.path.isfile(MARKDOWN_PATH):
-        raise ValueError(f"❌ Caminho inválido para arquivo Markdown: {MARKDOWN_PATH}")
+    all_documents = []
 
-    markdown_text = load_markdown(MARKDOWN_PATH)
+    for markdown_file in MARKDOWN_PATH:
+        if not os.path.isfile(markdown_file):
+            print(f"⚠️ Arquivo não encontrado ou inválido: {markdown_file}. Ignorando...")
+            continue
 
-    if "Iniciativas.md" in MARKDOWN_PATH:
-        documents = process_iniciativas_markdown(markdown_text, MARKDOWN_PATH)
-    elif "riscos_operacionais.md" in MARKDOWN_PATH:
-        documents = process_riscos_markdown(markdown_text, MARKDOWN_PATH)
-    else:
-        raise ValueError("❌ Tipo de arquivo Markdown não reconhecido.")
+        markdown_text = load_markdown(markdown_file)
 
-    index_path = os.path.join(VECTORSTORE_DIR, "full_index")
-    FAISS.from_documents(documents, OpenAIEmbeddings(model='text-embedding-3-large')).save_local(index_path)
-    print(f"✅ Vectorstore atualizado e salvo em {index_path}.")
+        # Processar diferentes tipos de arquivos Markdown
+        if "Iniciativas.md" in markdown_file:
+            all_documents += process_iniciativas_markdown(markdown_text, markdown_file)
+        elif "iesgo_structured.md" in markdown_file:
+            all_documents += process_iesgo_markdown(markdown_text, markdown_file)
+        elif "imgg_structured.md" in markdown_file:
+            all_documents += process_imgg_markdown(markdown_text, markdown_file)
+        else:
+            print(f"⚠️ Arquivo Markdown não reconhecido: {markdown_file}. Ignorando...")
+
+    if not all_documents:
+        raise ValueError("❌ Nenhum documento processado. Verifique os arquivos Markdown.")
+
+    full_index_path = os.path.join(VECTORSTORE_DIR, "full_index")
+    FAISS.from_documents(all_documents, OpenAIEmbeddings(model='text-embedding-3-large')).save_local(full_index_path)
+    print(f"✅ Vectorstore atualizado e salvo em {full_index_path}.")
 
 def get_vectorstore():
     if needs_update(MARKDOWN_PATH, FAISS_INDEX_PATH):

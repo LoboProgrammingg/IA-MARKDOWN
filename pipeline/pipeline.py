@@ -11,7 +11,7 @@ def create_pipeline_with_memory():
     vectorstore = get_vectorstore()
     retriever = vectorstore.as_retriever(
         search_type='similarity',
-        search_kwargs={'k': 6, 'fetch_k': 25}
+        search_kwargs={'k': 7, 'fetch_k': 23}
 )
 
     rag_chain_content_preparation = RunnableParallel({

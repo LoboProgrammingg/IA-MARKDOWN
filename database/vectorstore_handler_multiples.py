@@ -4,7 +4,6 @@ from langchain_openai import OpenAIEmbeddings
 from config.config import MARKDOWN_PATH, VECTORSTORE_DIR, FAISS_INDEX_PATH
 from database.file_handler import load_markdown, needs_update
 from database.metadata.markdown_processor_iniciativas import process_iniciativas_markdown
-from database.metadata.markdown_processor_riscos import process_riscos_markdown
 
 def create_or_update_vectorstore():
     print("🔄 Atualizando o vectorstore...")
