@@ -12,5 +12,5 @@ def get_iesgo_retriever():
 
 def get_imgg_retriever():
     return get_imgg_vectorstore().as_retriever(
-        search_type="mmr", search_kwargs={"k": 1, "fetch_k": 2}
+        search_type="mmr", search_kwargs={"k": 2}
     )

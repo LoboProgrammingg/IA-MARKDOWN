@@ -5,6 +5,7 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 from retriever.retrievers import get_iniciativas_retriever, get_iesgo_retriever, get_imgg_retriever
 from prompt.prompt_template import prompt_template_with_memory
 from memory.memory_handler import get_session_history, save_session_history
+from config.utils import summarize_documents_in_one_call
 
 def create_pipeline_with_separated_vectorstores():
     iniciativas_retriever = get_iniciativas_retriever()
@@ -26,7 +27,7 @@ def create_pipeline_with_separated_vectorstores():
             "contexto": "\n\n".join([
                 "\n".join(doc.page_content for doc in inputs["iniciativas_contexto"]),
                 "\n".join(doc.page_content for doc in inputs["iesgo_contexto"]),
-                "\n".join(doc.page_content for doc in inputs["imgg_contexto"]),
+                summarize_documents_in_one_call(inputs["imgg_contexto"]),
             ]),
             "memoria": inputs["memoria"]
         })
