@@ -7,23 +7,6 @@ from memory.filters import filter_irrelevant_messages
 session_histories = {}
 
 def get_session_history(session_id: str) -> InMemoryChatMessageHistory:
-    """
-    Arquivo memory_handler.py:
-    Gerencia o histórico da sessão (get_session_history e save_session_history).
-    Delega truncamento, compactação, filtros e resumo para os arquivos específicos.
-
-    Arquivo truncation.py:
-    Lida com truncamento do histórico baseado em tokens.
-
-    Arquivo summarization.py:
-    Gera resumos do histórico utilizando o modelo ChatOpenAI.
-
-    Arquivo filters.py:
-    Remove mensagens irrelevantes ou curtas do histórico.
-
-    Arquivo compaction.py:
-    Compacta mensagens consecutivas do mesmo autor.
-    """
     if session_id not in session_histories:
         session_histories[session_id] = InMemoryChatMessageHistory()
     return session_histories[session_id]

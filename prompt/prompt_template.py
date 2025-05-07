@@ -1,6 +1,6 @@
 from langchain_core.prompts import ChatPromptTemplate
 
-def load_readme_content(filepath="documentation\\instrucoes.md"):
+def load_readme_content(filepath="documentation\instrucoes.md"):
     with open(filepath, "r", encoding="utf-8") as file:
         return file.read()
 

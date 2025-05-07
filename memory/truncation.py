@@ -2,7 +2,7 @@ import tiktoken
 from langchain_core.chat_history import InMemoryChatMessageHistory
 
 def truncate_history_by_tokens(history: InMemoryChatMessageHistory, max_tokens: int):
-    encoder = tiktoken.encoding_for_model("gpt-4")
+    encoder = tiktoken.encoding_for_model("gpt-4o-mini")
     total_tokens = 0
     truncated_messages = []
     for message in reversed(history.messages):

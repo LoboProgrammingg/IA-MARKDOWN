@@ -37,9 +37,16 @@ project/
 │   ├── vectorstore_handler.py
 │   └── vectorstore_handler_multiples.py
 ├── documentation/
-│   └── ...
+│   ├── iesgo_structured.md
+│   ├── imgg_structured.md
+│   ├── Iniciativas.md
+│   └── instrucoes.md  
 ├── memory/
 │   ├── __init__.py
+│   ├── compaction.py
+│   ├── filters.py
+│   ├── summarization.py
+│   ├── truncation.py
 │   └── memory_handler.py
 ├── pipeline/
 │   ├── __init__.py
