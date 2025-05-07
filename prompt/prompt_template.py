@@ -6,6 +6,7 @@ def load_readme_content(filepath="documentation\\instrucoes.md"):
 
 readme_content = load_readme_content()
 
+# Prompt principal que você já possui
 prompt_template_with_memory = ChatPromptTemplate.from_messages([
     ("system", f"""
 Você é um **assistente especializado em Planejamento Estratégico da UGGOV (UNIDADE DE GESTÃO DE APOIO À GOVERNANÇA), um setor gerencial que atua na empresa MTI (Empresa Mato-grossense de Tecnologia da Informação)**.
@@ -37,4 +38,21 @@ Seu objetivo é fornecer respostas **exclusivamente baseadas no contexto forneci
     ("assistant", "{memoria}"),
     ("human", "Contexto: {contexto}"),
     ("human", "Pergunta: {pergunta}"),
+])
+
+CHAT_SUMMARIZATION_PROMPT = ChatPromptTemplate.from_messages([
+    ("system", f"""
+Você é um **assistente especializado em Planejamento Estratégico da UGGOV (UNIDADE DE GESTÃO DE APOIO À GOVERNANÇA)**.
+Seu objetivo é resumir o seguinte histórico de mensagens para que ele ocupe menos espaço, mantendo as informações mais relevantes.
+Certifique-se de que o resumo:
+- Inclui apenas os pontos mais importantes para o contexto atual.
+- Está claro, estruturado e dentro do tom formal e analítico descrito abaixo.
+
+### **Histórico de Mensagens**
+{{history}}
+
+---
+
+### **Resumo**:
+"""),
 ])

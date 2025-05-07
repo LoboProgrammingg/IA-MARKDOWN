@@ -13,3 +13,5 @@ vectorstore/
 transforming_data/client_secrets.json
 
 transforming_data/documentation/
+
+ESTRUTURA_LANGSMITH.md

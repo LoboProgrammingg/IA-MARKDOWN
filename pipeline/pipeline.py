@@ -13,9 +13,9 @@ def create_pipeline_with_separated_vectorstores():
 
     content_preparation = RunnableParallel({
         'pergunta': lambda x: x['pergunta'],
-        'iniciativas_contexto': lambda x: iniciativas_retriever.get_relevant_documents(x['pergunta']),
-        'iesgo_contexto': lambda x: iesgo_retriever.get_relevant_documents(x['pergunta']),
-        'imgg_contexto': lambda x: imgg_retriever.get_relevant_documents(x['pergunta']),
+        'iniciativas_contexto': lambda x: iniciativas_retriever.invoke(x['pergunta']),
+        'iesgo_contexto': lambda x: iesgo_retriever.invoke(x['pergunta']),
+        'imgg_contexto': lambda x: imgg_retriever.invoke(x['pergunta']),
         'memoria': lambda x: x['memoria'],
     })
 
@@ -58,8 +58,10 @@ def get_response_stream(question: str, session_id: str):
 
     pipeline = create_pipeline_with_separated_vectorstores()
 
+    history = get_session_history(session_id)
+
     response = pipeline.stream(
-        {'pergunta': question, 'memoria': []},
+        {'pergunta': question, 'memoria': history.messages},
         config={'configurable': {'session_id': session_id}}
     )
 
