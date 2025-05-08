@@ -3,9 +3,12 @@ from langchain_community.vectorstores.faiss import FAISS
 from langchain_openai import OpenAIEmbeddings
 from config.config import MARKDOWN_PATH, VECTORSTORE_DIR
 from database.file_handler import load_markdown, needs_update
-from database.metadata.markdown_processor_iniciativas import process_iniciativas_markdown
-from database.metadata.markdown_iesgo import process_iesgo_markdown
-from database.metadata.markdown_imgg import process_imgg_markdown
+from database.metadata_split.markdown_processor_iniciativas import process_iniciativas_markdown
+from database.metadata_split.markdown_iesgo import process_iesgo_markdown
+from database.metadata_split.markdown_imgg import process_imgg_markdown
+from database.metadata_split.markdown_indicadores import process_indicadores_markdown
+from database.metadata_split.markdown_processor_diagnostico_imgg import process_diagnostico_imgg_markdown
+
 
 def create_or_update_specific_vectorstore(document_type, markdown_file, processor_function):
     print(f"🔄 Atualizando o vectorstore para {document_type}...")
@@ -53,3 +56,15 @@ def get_imgg_vectorstore():
     if not markdown_file:
         raise ValueError("❌ Arquivo 'imgg_structured.md' não encontrado em MARKDOWN_PATH.")
     return get_vectorstore("imgg", markdown_file, process_imgg_markdown)
+
+def get_indicadores_vectorstore():
+    markdown_file = next((f for f in MARKDOWN_PATH if "indicadores_structured.md" in f), None)
+    if not markdown_file:
+        raise ValueError("❌ Arquivo 'indicadores_structured.md' não encontrado em MARKDOWN_PATH.")
+    return get_vectorstore("indicadores", markdown_file, process_indicadores_markdown)
+
+def get_diagnostico_imgg_vectorstore():
+    markdown_file = next((f for f in MARKDOWN_PATH if "diagnostico_imgg_structured.md" in f), None)
+    if not markdown_file:
+        raise ValueError("❌ Arquivo 'diagnostico_imgg_structured.md' não encontrado em MARKDOWN_PATH.")
+    return get_vectorstore("diagnostico_imgg", markdown_file, process_diagnostico_imgg_markdown)
