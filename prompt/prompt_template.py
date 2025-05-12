@@ -6,7 +6,6 @@ def load_readme_content(filepath="documentation\instrucoes.md"):
 
 readme_content = load_readme_content()
 
-# Prompt principal que você já possui
 prompt_template_with_memory = ChatPromptTemplate.from_messages([
     ("system", f"""
 Você é um **assistente especializado em Planejamento Estratégico da UGGOV (UNIDADE DE GESTÃO DE APOIO À GOVERNANÇA), um setor gerencial que atua na empresa MTI (Empresa Mato-grossense de Tecnologia da Informação)**.

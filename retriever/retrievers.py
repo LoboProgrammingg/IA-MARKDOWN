@@ -26,7 +26,7 @@ def get_imgg_retriever():
 
 def get_indicadores_retriever():
     return get_indicadores_vectorstore().as_retriever(
-        search_type="mmr", search_kwargs={"k": 5, "fetch_k": 10}
+        search_type="mmr", search_kwargs={"k": 3, "fetch_k": 13}
     )
 
 def get_diagnostico_imgg_retriever():
@@ -34,14 +34,12 @@ def get_diagnostico_imgg_retriever():
         search_type="mmr", search_kwargs={"k": 4, "fetch_k": 20}
     )
 
-# Instanciar os retrievers
 iniciativas_retriever = get_iniciativas_retriever()
 iesgo_retriever = get_iesgo_retriever()
 imgg_retriever = get_imgg_retriever()
 indicadores_retriever = get_indicadores_retriever()
 diagnostico_imgg_retriever = get_diagnostico_imgg_retriever()
 
-# Prompt Template para lidar com conexões
 prompt_template = PromptTemplate(
     input_variables=["section", "question", "connections"],
     template="""
@@ -65,7 +63,6 @@ def fetch_connections(question):
     indicadores_results = indicadores_retriever.get_relevant_documents(question)
     diagnostico_imgg_results = diagnostico_imgg_retriever.get_relevant_documents(question)
 
-    # Adicionar conexões relevantes às respostas
     if iniciativas_results:
         connections.append("Dados relacionados do vectorstore 'Iniciativas'.")
     if iesgo_results:
