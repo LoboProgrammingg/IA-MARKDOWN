@@ -14,4 +14,3 @@ python-dotenv
 tiktoken
 python-multipart
 faiss-cpu
-faiss
