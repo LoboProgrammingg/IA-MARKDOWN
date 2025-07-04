@@ -1,24 +1,14 @@
-# Web Framework
 fastapi
 uvicorn
-
-# Gemini e LangChain
 google-genai
 langchain
 langchain-community
 langchain-core
 langchain-google-genai
-
-# Autenticação Google API (usado internamente pela Gemini API)
 google-auth
 google-api-core
-
-# Utilitários comuns para APIs Python modernas
 pydantic
-python-dotenv
-requests
 orjson
-
-# (Opcional, mas muito usado em projetos de IA e APIs modernas)
-numpy
-pandas
+requests
+python-dotenv
+tiktoken
