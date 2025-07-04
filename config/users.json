@@ -1,0 +1,10 @@
+{
+    "mtiadmin": {
+        "password": "admin123",
+        "nome_completo": "Administrador MTI"
+    },
+    "teste": {
+        "password": "teste",
+        "nome_completo": "Usuário de Teste"
+    }
+}

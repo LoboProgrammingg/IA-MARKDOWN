@@ -1,0 +1,45 @@
+{
+    "matheuscamara": {
+        "nome_completo": "Matheus Lobo Camara",
+        "is_admin": true,
+        "unidade": "UGGOV",
+        "assistant_tone": "Amigável e Informal",
+        "assistant_detail_level": "Detalhado",
+        "password_hash": "$2b$12$eRLeN98xuOS1MgepX/rKQe1IThWH6B.DLTKFZJhKY7DO8gxDe3ksq"
+    },
+    "ideraldobonafe": {
+        "nome_completo": "Ideraldo Bonafe",
+        "is_admin": true,
+        "unidade": "UGGOV",
+        "password_hash": "$2b$12$WruT1O32dmMgrbSOvaAbOuzdUCSuTGbM.NLcqZPV6JEZlfvozqiYC"
+    },
+    "lucasramos": {
+        "nome_completo": "Lucas Ramos",
+        "is_admin": true,
+        "unidade": "UGARQ",
+        "password_hash": "$2b$12$z22gRNGjdLiLALoDl5igQO/1j2Se4kIIP03PKphO8X8huSY5SNTcy"
+    },
+    "teste": {
+        "nome_completo": "Usuário Teste",
+        "is_admin": true,
+        "password_hash": "$2b$12$LWobtQpDVMjD6QCOksZxNe1a.tIpgylzpoU29ogLDoyVtBhmfC29y"
+    },
+    "joseluiz": {
+        "nome_completo": "Jose Luiz",
+        "is_admin": false,
+        "password_hash": "$2b$12$YIqvddxmeuqncX8yJzSNT.iQiA3/EBROJpVIoccJCgz/d/Sszmb5K"
+    },
+    "tete": {
+        "nome_completo": "tete",
+        "is_admin": true,
+        "unidade": "UNIJUR",
+        "password_hash": "$2b$12$6ieiaj/r7Gjtogug5i11uevYGu2UrVrWxgRfxvcPhrGOwiOTbJXyK"
+    },
+    "joseruiz@gmail.com": {
+        "nome_completo": "jose ruiz",
+        "is_admin": true,
+        "unidade": "UGSDG",
+        "profile_image_b64": "",
+        "password_hash": "$2b$12$q0aY8bHlg/artKF8Q1CkG.Zx/38ScjNj5HwjmUbgXsjjZvpg.tPDK"
+    }
+}
