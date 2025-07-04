@@ -13,6 +13,5 @@ requests
 python-dotenv
 tiktoken
 python-multipart
-faiss-gpu
 faiss-cpu
 faiss
