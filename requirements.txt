@@ -3,14 +3,14 @@ fastapi==0.115.13
 uvicorn==0.34.3
 
 # Dependências da LLM (Gemini) e Langchain
-# Removi a especificação exata de google-ai-generativelanguage
-# para que pip possa resolver automaticamente com a nova versão de google-generativeai
-google-generativeai==0.11.1 # Versão mais recente e compatível
+# Corrigindo para usar a versão 0.8.5 de google-generativeai
+google-generativeai==0.8.5
+google-ai-generativelanguage==0.6.15 # Fixado para ser compatível com google-generativeai==0.8.5
 
 langchain==0.3.25
 langchain-community==0.3.24
 langchain-core==0.3.61
-langchain-google-genai==2.1.4
+langchain-google-genai==2.1.4 # Mantenha esta versão da Langchain para Google GenAI
 langchain-openai==0.3.18
 langchain-text-splitters==0.3.8
 langsmith==0.3.42
@@ -54,10 +54,3 @@ numpy==2.2.6
 pandas==2.2.3
 platformdirs==4.3.8
 pillow==11.2.1
-
-# Se sua API lida diretamente com embeddings FAISS:
-faiss-cpu==1.11.0
-
-# Biblioteca grande. Só mantenha se for absolutamente essencial para a inferência da sua IA.
-# Caso contrário, pode exceder o limite de RAM/disco do plano gratuito.
-torch==2.7.1
