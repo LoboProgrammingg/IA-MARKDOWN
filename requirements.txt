@@ -1,143 +1,24 @@
-# Web Framework e Servidor ASGI
+# Web Framework
 fastapi
 uvicorn
 
-# Dependências da LLM (Gemini) e Langchain
-google-ai-generativelanguage
-google-api-core
-google-api-python-client
-google-auth
-google-auth-httplib2
+# Gemini e LangChain
 google-genai
-google-generativeai
-googleapis-common-protos
 langchain
 langchain-community
 langchain-core
 langchain-google-genai
-langchain-openai
-langchain-text-splitters
-langsmith
-openai
-tiktoken
-transformers
-tokenizers
-safetensors
-onnxruntime
 
-# Pacotes Básicos de Processamento e Utilitários
-aiohttp
-aiosignal
-anyio
-async-timeout
-attrs
-certifi
-charset-normalizer
-idna
-jmespath
-jsonlines
-jsonpatch
-jsonpointer
-jsonref
-jsonschema
-jsonschema-specifications
-multidict
-numpy
-orjson
-packaging
-pandas
-pillow
-platformdirs
+# Autenticação Google API (usado internamente pela Gemini API)
+google-auth
+google-api-core
+
+# Utilitários comuns para APIs Python modernas
 pydantic
-pydantic-extra-types
-pydantic-settings
-pydantic_core
 python-dotenv
 requests
-rsa
-sniffio
-typing-inspect
-typing-inspection
-typing_extensions
-urllib3
-yarl
-zstandard
+orjson
 
-# Dependências de Segurança e Comunicação
-bcrypt
-cffi
-cryptography
-dnspython
-grpcio
-grpcio-status
-h11
-httpcore
-httplib2
-httptools
-httpx
-httpx-sse
-pyOpenSSL
-PyJWT
-pyasn1
-pyasn1_modules
-python-bidi
-pytz
-PyYAML
-redis
-regex
-requests-toolbelt
-semchunk
-six
-smmap
-sortedcontainers
-tenacity
-tornado
-tqdm
-ujson
-validators
-websockets
-
-# Outras dependências da IA / Processamento (mantenha se realmente usa)
-cloudpickle # Para serialização de objetos (modelos, etc.)
-dill # Para serialização de objetos
-easyocr # Se a API usa OCR
-faiss-cpu # Se usa para busca de vetores eficiente (atenção ao tamanho)
-huggingface-hub
-imageio
-kiwisolver # Dependência comum para matplotlib
-lazy_loader
-matplotlib # Se a API gera gráficos em tempo de execução
-networkx
-ninja
-opencv-python-headless # Se a API usa processamento de imagem avançado
-pdf2image # Se a API processa PDFs
-pgvector # Se usa pgvector no banco de dados
-plotly # Se a API gera gráficos em tempo de execução
-prometheus_client # Para métricas, se configurado
-proto-plus
-protobuf
-psycopg2-binary # Se usa PostgreSQL
-pyarrow # Se usa para dados tabulares
-pycparser
-pyparsing
-pypdfium2 # Se a API processa PDFs
-python-dateutil
-python-multipart
-qrcode # Se a API gera QR codes
-referencing
-rpds-py
-s3transfer # Se integra com S3 (AWS)
-scikit-image # Se usa processamento de imagem
-scipy # Dependência comum para numpy/outras libs científicas
-shapely
-SQLAlchemy # Se usa ORM SQLAlchemy
-sympy
-tabulate
-tifffile
-toml
-tomli
-tomlkit
-trycourier
-typer
-uritemplate
-watchfiles # Para auto-recarregamento (dev, não prod)
+# (Opcional, mas muito usado em projetos de IA e APIs modernas)
+numpy
+pandas
