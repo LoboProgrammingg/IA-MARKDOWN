@@ -12,3 +12,4 @@ orjson
 requests
 python-dotenv
 tiktoken
+python-multipart
