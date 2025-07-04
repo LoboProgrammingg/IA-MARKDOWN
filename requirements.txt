@@ -2,67 +2,58 @@
 fastapi==0.115.13
 uvicorn==0.34.3
 
-# Dependências da LLM (Gemini) e Langchain
-# ATUALIZANDO VERSÕES PRINCIPAIS PARA GARANTIR COMPATIBILIDADE
-langchain==0.2.11 # Versão mais recente e estável do LangChain
-langchain-core==0.2.20 # Compatível com LangChain 0.2.x
-langchain-community==0.2.10 # Compatível com LangChain 0.2.x
-langchain-google-genai==1.3.0 # Versão compatível com LangChain 0.2.x e novas APIs da Google
-google-generativeai==0.11.1 # Esta versão é a mais recente.
-                            # Se ainda der 'No matching distribution',
-                            # TEREMOS QUE USAR 'google-generativeai' SEM ESPECIFICAR VERSAO
-                            # e deixar o pip resolver.
-google-ai-generativelanguage>=0.6.18,<0.7.0 # Mantendo a faixa que langchain-google-genai 1.3.0 precisa
+# Dependências da LLM (Gemini) e Langchain - Deixando sem versão para máxima compatibilidade
+langchain # Deixa o pip pegar a última versão compatível
+langchain-core # Deixa o pip pegar a última versão compatível
+langchain-community # Deixa o pip pegar a última versão compatível
+langchain-google-genai # Deixa o pip pegar a última versão compatível
+google-generativeai # Deixa o pip pegar a última versão compatível
 
 # Outras dependências da IA
-openai==1.82.0 # Se você usa OpenAI também
-langchain-openai==0.3.18 # Se você usa OpenAI também com LangChain
-langchain-text-splitters==0.2.1 # Compatível com LangChain 0.2.x
-langsmith==0.3.42 # Para rastreamento de LangChain
+openai # Deixa o pip pegar a última versão compatível
+langchain-openai # Deixa o pip pegar a última versão compatível
+langchain-text-splitters # Deixa o pip pegar a última versão compatível
+langsmith # Deixa o pip pegar a última versão compatível
 
 # Tokenização e Ferramentas Auxiliares para LLMs
-tiktoken==0.9.0
-transformers==4.52.4
-tokenizers==0.21.1
-safetensors==0.5.3
-onnxruntime==1.22.0 # Se essencial para modelos de transformers
+tiktoken # Deixa o pip pegar a última versão compatível
+transformers # Deixa o pip pegar a última versão compatível
+tokenizers # Deixa o pip pegar a última versão compatível
+safetensors # Deixa o pip pegar a última versão compatível
+onnxruntime # Deixa o pip pegar a última versão compatível
 
 # Pacotes Básicos de Processamento e Utilitários
-aiohttp==3.12.2
-aiosignal==1.3.2
-async-timeout==4.0.3
-attrs==25.3.0
-certifi==2025.4.26
-charset-normalizer==3.4.2
-idna==3.10
-multidict==6.4.4
-yarl==1.20.0
-sniffio==1.3.1
-httpcore==1.0.9
-httpx==0.28.1
-httpx-sse==0.4.0
-huggingface-hub==0.32.4
-jmespath==1.0.1
-jsonschema==4.24.0
-jsonschema-specifications==2025.4.1
-orjson==3.10.18
-pydantic==2.11.5
-pydantic-extra-types==2.10.5
-pydantic-settings==2.9.1
-pydantic_core==2.33.2
-python-dotenv==1.1.0
-requests==2.32.3
-urllib3==2.4.0
-typing_extensions==4.13.2
-zstandard==0.23.0
-numpy==2.2.6
-pandas==2.2.3
-platformdirs==4.3.8
-pillow==11.2.1
+aiohttp # Deixa o pip pegar a última versão compatível
+aiosignal # Deixa o pip pegar a última versão compatível
+async-timeout # Deixa o pip pegar a última versão compatível
+attrs # Deixa o pip pegar a última versão compatível
+certifi # Deixa o pip pegar a última versão compatível
+charset-normalizer # Deixa o pip pegar a última versão compatível
+idna # Deixa o pip pegar a última versão compatível
+multidict # Deixa o pip pegar a última versão compatível
+yarl # Deixa o pip pegar a última versão compatível
+sniffio # Deixa o pip pegar a última versão compatível
+httpcore # Deixa o pip pegar a última versão compatível
+httpx # Deixa o pip pegar a última versão compatível
+httpx-sse # Deixa o pip pegar a última versão compatível
+huggingface-hub # Deixa o pip pegar a última versão compatível
+jmespath # Deixa o pip pegar a última versão compatível
+jsonschema # Deixa o pip pegar a última versão compatível
+jsonschema-specifications # Deixa o pip pegar a última versão compatível
+orjson # Deixa o pip pegar a última versão compatível
+pydantic # Deixa o pip pegar a última versão compatível
+pydantic-extra-types # Deixa o pip pegar a última versão compatível
+pydantic-settings # Deixa o pip pegar a última versão compatível
+pydantic_core # Deixa o pip pegar a última versão compatível
+python-dotenv # Deixa o pip pegar a última versão compatível
+requests # Deixa o pip pegar a última versão compatível
+urllib3 # Deixa o pip pegar a última versão compatível
+typing_extensions # Deixa o pip pegar a última versão compatível
+zstandard # Deixa o pip pegar a última versão compatível
+numpy # Deixa o pip pegar a última versão compatível
+pandas # Deixa o pip pegar a última versão compatível
+platformdirs # Deixa o pip pegar a última versão compatível
+pillow # Deixa o pip pegar a última versão compatível
 
 # Se sua API lida diretamente com embeddings FAISS:
-faiss-cpu==1.11.0
-
-# Biblioteca grande. Só mantenha se for absolutamente essencial para a inferência da sua IA.
-# Caso contrário, pode exceder o limite de RAM/disco do plano gratuito.
-torch==2.7.1
+faiss-cpu # Deixa o pip pegar a última versão compatível
