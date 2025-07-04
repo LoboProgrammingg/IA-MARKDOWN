@@ -3,23 +3,24 @@ fastapi==0.115.13
 uvicorn==0.34.3
 
 # Dependências da LLM (Gemini) e Langchain
-# Ajustado para permitir maior flexibilidade de versão, se necessário
-google-ai-generativelanguage>=0.6.18,<0.7.0
-google-generativeai>=0.8.5
+# Removi a especificação exata de google-ai-generativelanguage
+# para que pip possa resolver automaticamente com a nova versão de google-generativeai
+google-generativeai==0.11.1 # Versão mais recente e compatível
+
 langchain==0.3.25
 langchain-community==0.3.24
 langchain-core==0.3.61
 langchain-google-genai==2.1.4
-langchain-openai==0.3.18 # Mantenha se você usa algum modelo da OpenAI também
+langchain-openai==0.3.18
 langchain-text-splitters==0.3.8
-langsmith==0.3.42 # Para rastreamento de LangChain, se você usa
+langsmith==0.3.42
 
 # Tokenização e Ferramentas Auxiliares para LLMs
 tiktoken==0.9.0
 transformers==4.52.4
 tokenizers==0.21.1
 safetensors==0.5.3
-onnxruntime==1.22.0 # Se essencial para modelos de transformers
+onnxruntime==1.22.0
 
 # Pacotes Básicos de Processamento e Utilitários
 aiohttp==3.12.2
@@ -44,29 +45,19 @@ pydantic==2.11.5
 pydantic-extra-types==2.10.5
 pydantic-settings==2.9.1
 pydantic_core==2.33.2
-python-dotenv==1.1.0 # Para carregar vars de ambiente LOCALMENTE (não afeta Render diretamente)
+python-dotenv==1.1.0
 requests==2.32.3
 urllib3==2.4.0
 typing_extensions==4.13.2
 zstandard==0.23.0
-numpy==2.2.6 # Essencial para muitas libs de IA
-pandas==2.2.3 # Se você usa pandas para manipulação de dados na API
+numpy==2.2.6
+pandas==2.2.3
 platformdirs==4.3.8
-pillow==11.2.1 # Se a sua IA faz algum processamento de imagem
+pillow==11.2.1
 
-# Se sua API LIDA DIRETAMENTE com embeddings FAISS:
+# Se sua API lida diretamente com embeddings FAISS:
 faiss-cpu==1.11.0
 
-# **ATENÇÃO:** Biblioteca grande. Só mantenha se for absolutamente essencial para a inferência da sua IA.
+# Biblioteca grande. Só mantenha se for absolutamente essencial para a inferência da sua IA.
 # Caso contrário, pode exceder o limite de RAM/disco do plano gratuito.
 torch==2.7.1
-# torchvision==0.22.1 # Apenas se a sua IA processa VÍDEO ou usa datasets de visão com torchvision
-
-# removidos explicitamente devido a conflitos ou incompatibilidades:
-# snowflake-connector-python
-# snowflake-snowpark-python
-# pywin32
-# Todas as libs de desenvolvimento (black, flake8, etc.)
-# Todas as libs de frontend/Streamlit
-# Todas as libs de processamento de documentos (docling, pdf2image, pytesseract, etc.) - a menos que a API *faça* isso em tempo real
-# Todos os utilitários de sistema operacional desnecessários para Linux
