@@ -3,24 +3,29 @@ fastapi==0.115.13
 uvicorn==0.34.3
 
 # Dependências da LLM (Gemini) e Langchain
-# Corrigindo para usar a versão 0.8.5 de google-generativeai
-google-generativeai==0.8.5
-google-ai-generativelanguage==0.6.15 # Fixado para ser compatível com google-generativeai==0.8.5
+# ATUALIZANDO VERSÕES PRINCIPAIS PARA GARANTIR COMPATIBILIDADE
+langchain==0.2.11 # Versão mais recente e estável do LangChain
+langchain-core==0.2.20 # Compatível com LangChain 0.2.x
+langchain-community==0.2.10 # Compatível com LangChain 0.2.x
+langchain-google-genai==1.3.0 # Versão compatível com LangChain 0.2.x e novas APIs da Google
+google-generativeai==0.11.1 # Esta versão é a mais recente.
+                            # Se ainda der 'No matching distribution',
+                            # TEREMOS QUE USAR 'google-generativeai' SEM ESPECIFICAR VERSAO
+                            # e deixar o pip resolver.
+google-ai-generativelanguage>=0.6.18,<0.7.0 # Mantendo a faixa que langchain-google-genai 1.3.0 precisa
 
-langchain==0.3.25
-langchain-community==0.3.24
-langchain-core==0.3.61
-langchain-google-genai==2.1.4 # Mantenha esta versão da Langchain para Google GenAI
-langchain-openai==0.3.18
-langchain-text-splitters==0.3.8
-langsmith==0.3.42
+# Outras dependências da IA
+openai==1.82.0 # Se você usa OpenAI também
+langchain-openai==0.3.18 # Se você usa OpenAI também com LangChain
+langchain-text-splitters==0.2.1 # Compatível com LangChain 0.2.x
+langsmith==0.3.42 # Para rastreamento de LangChain
 
 # Tokenização e Ferramentas Auxiliares para LLMs
 tiktoken==0.9.0
 transformers==4.52.4
 tokenizers==0.21.1
 safetensors==0.5.3
-onnxruntime==1.22.0
+onnxruntime==1.22.0 # Se essencial para modelos de transformers
 
 # Pacotes Básicos de Processamento e Utilitários
 aiohttp==3.12.2
@@ -54,3 +59,10 @@ numpy==2.2.6
 pandas==2.2.3
 platformdirs==4.3.8
 pillow==11.2.1
+
+# Se sua API lida diretamente com embeddings FAISS:
+faiss-cpu==1.11.0
+
+# Biblioteca grande. Só mantenha se for absolutamente essencial para a inferência da sua IA.
+# Caso contrário, pode exceder o limite de RAM/disco do plano gratuito.
+torch==2.7.1
