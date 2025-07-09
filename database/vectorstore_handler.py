@@ -20,14 +20,9 @@ from database.metadata_split.markdown_riscos import process_riscos_markdown
 from database.metadata_split.markdown_processor_estatuto_social import (
     process_estatuto_markdown,
 )
-from database.metadata_split.markdown_processor_estrutura import (
-    process_estrutura_markdown,
-)
 from database.metadata_split.markdown_regimento import (
     process_regimento_markdown,
 )
-
-# >>>>>>>>>>>> ADICIONE ESTA LINHA <<<<<<<<<<<<<<
 from database.metadata_split.markdown_gerente import process_gerentes_markdown
 
 from dotenv import load_dotenv, find_dotenv

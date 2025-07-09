@@ -95,9 +95,10 @@ def create_pipeline_with_separated_vectorstores():
 
     gemini_api_key = validate_env_variable('GEMINI_API_KEY')
 
-    thinking_config = types.ThinkingConfig(include_thoughts=True)
     generation_config = types.GenerateContentConfig(
-        thinking_config=thinking_config
+        thinking_config=types.ThinkingConfig(
+            include_thoughts=True, thinking_budget=2000
+        )
     )
 
     core_rag_chain = (
@@ -163,16 +164,17 @@ def create_pipeline_single_vectorstore(vectorstore_name: str):
 
     gemini_api_key = validate_env_variable('GEMINI_API_KEY')
 
-    thinking_config = types.ThinkingConfig(include_thoughts=True)
     generation_config = types.GenerateContentConfig(
-        thinking_config=thinking_config
+        thinking_config=types.ThinkingConfig(
+            include_thoughts=True, thinking_budget=3300
+        )
     )
 
     single_chain = (
         prepare_single_context
         | prompt_template_with_memory
         | ChatGoogleGenerativeAI(
-            model='gemini-2.5-pro-preview-06-05',
+            model='gemini-2.5-pro',
             temperature=0.3,
             max_output_tokens=65536,
             google_api_key=gemini_api_key,
