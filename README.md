@@ -1,18 +1,3 @@
-# 🤖 Assistente Estratégico
-
-O **Assistente Estratégico** é uma aplicação avançada baseada em Inteligência Artificial, desenvolvida com as tecnologias `Streamlit`, `LangChain` e integração com modelos da OpenAI. Esta solução é projetada para fornecer suporte estratégico, processando perguntas e oferecendo respostas contextuais fundamentadas em documentos estruturados e pré-processados.
-
----
-
-## 🚀 Funcionalidades Principais
-
-- **Análise Contextual Inteligente**: As respostas são geradas com base na similaridade semântica de documentos fornecidos, garantindo precisão e relevância.
-- **Pipeline Modular e Personalizado**: Configurado para processar consultas e buscar contextos relevantes de forma eficaz.
-- **Interface de Usuário Intuitiva**: Desenvolvida com `Streamlit`, oferecendo estilização avançada e experiência interativa.
-- **Atualização Automática de Dados**: Detecta alterações em documentos e recria o vetor FAISS automaticamente, mantendo os dados atualizados.
-
----
-
 ## 🛠️ Estrutura do Projeto
 
 A organização do projeto segue uma estrutura modular e escalável:
@@ -95,146 +80,135 @@ project/
 │   └── section.py
 ```
 
----
+# API de IA com FastAPI utilizando Gemini LLM
 
-## 🔧 Pré-requisitos
+Este projeto é uma API desenvolvida em Python utilizando o framework **FastAPI** integrada à LLM do Gemini, facilitando a criação de aplicações de Inteligência Artificial de maneira simples, performática e escalável.
 
-Certifique-se de ter as seguintes ferramentas instaladas:
+## Sumário
 
-- Python 3.8 ou superior
-- `pip` ou `conda` para gerenciamento de pacotes
-
----
-
-## 📦 Instalação
-
-1. **Clone o repositório**:
-   ```bash
-   git clone https://github.com/LoboProgrammingg/IA-MARKDOWN
-   cd IA-MARKDOWN
-   ```
-
-2. **Crie e ative um ambiente virtual**:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate
-   venv\Scripts\activate
-   ```
-
-3. **Instale as dependências**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Configure as variáveis de ambiente**:
-   - Crie um arquivo `.env` na pasta raiz do projeto:
-     ```
-     OPENAI_API_KEY=seu_api_key_aqui
-     ```
-   - Substitua `seu_api_key_aqui` pela sua chave de API da OpenAI.
+- [Descrição](#descrição)
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)
+- [Requisitos](#requisitos)
+- [Instalação](#instalação)
+- [Como Rodar a API](#como-rodar-a-api)
+- [Como acessar a documentação (Swagger)](#como-acessar-a-documentação-swagger)
+- [Sobre o FastAPI e Uvicorn](#sobre-o-fastapi-e-uvicorn)
 
 ---
 
-## 📂 Configuração de Dados
+## Descrição
 
-1. **Arquivo Markdown**:
-   - O arquivo `arquivo.md` deve conter dados estruturados para análise pela IA.
-   - Estrutura esperada:
-     ```markdown
-     ## Unidade: Nome da Unidade
-     Conteúdo relacionado ao meu projeto...
-
-     ## Unidade: Outra Unidade
-     Mais informações...
-     ```
-
-2. **VectorStore (FAISS)**:
-   - O sistema detecta automaticamente mudanças no arquivo `arquivo.md` e recria o vetor FAISS conforme necessário, garantindo que os dados estejam sempre atualizados.
+Esta API expõe endpoints para interação com modelos de linguagem natural do Gemini, utilizando a robustez do **FastAPI** e diversas bibliotecas para manipulação e orquestração dos modelos. Ideal para aplicações que necessitam de processamento de linguagem natural, chatbots, assistentes virtuais, análise de texto, entre outros.
 
 ---
 
-## ▶️ Como Executar
+## Tecnologias Utilizadas
 
-1. Inicie a aplicação:
-   ```bash
-   streamlit run app.py
-   ```
-
-2. Acesse o navegador no link fornecido pelo terminal (geralmente `http://localhost:8501`).
-
----
-
-## 🔍 Pipeline de Processamento
-
-O pipeline, configurado no arquivo `pipeline.py`, segue as etapas abaixo:
-
-1. **Carregamento do VectorStore**:
-   - A função `get_vectorstore` no arquivo `vectorstore_handler.py` verifica e atualiza automaticamente o vetor FAISS com base no arquivo Markdown.
-
-2. **Configuração do Pipeline**:
-   - Utiliza o retriever do FAISS para localizar os contextos mais relevantes.
-   - Processa as consultas com o modelo da OpenAI (`gpt-4o-mini`), garantindo respostas precisas e contextualizadas.
-
-3. **Resposta em Streaming**:
-   - As respostas são geradas em tempo real e exibidas na interface do Streamlit.
+- **FastAPI**: Framework web moderno e rápido para criação de APIs em Python.
+- **Uvicorn**: Servidor ASGI leve e de alta performance, utilizado para rodar aplicações FastAPI.
+- **google-genai** & **langchain**: Bibliotecas para integração com LLMs, especialmente Gemini.
+- **pydantic**: Validação de dados e criação de schemas.
+- **orjson**: Serialização/deserialização de JSON extremamente rápida.
+- **faiss-cpu**: Busca vetorial de alta performance.
+- Outras: `requests`, `python-dotenv`, `tiktoken`, `python-multipart`, `google-auth`, `google-api-core`.
 
 ---
 
-## 🎨 Interface do Usuário
+## Requisitos
 
-A interface da aplicação foi projetada com atenção ao design e facilidade de uso:
-
-- **Chat Interativo**:
-  - Mensagens do usuário e da IA são exibidas em balões estilizados.
-  - O texto da IA é formatado para destacar palavras-chave como `Unidade`, `Objetivo Estratégico`, etc.
-
-- **Estilo Visual Personalizado**:
-  - Cores, fontes e layout foram ajustados para proporcionar uma experiência visual agradável e profissional.
+- Python 3.9 ou superior
+- Git (opcional para clonar o repositório)
 
 ---
 
-## ✨ Exemplos de Uso
+## Instalação
 
-### Entrada do Usuário:
-```plaintext
-Qual é o objetivo estratégico da Unidade X?
+### 1. Clone o repositório
+
+```bash
+git clone https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git
+cd SEU_REPOSITORIO
 ```
 
-### Resposta da IA:
-```plaintext
-Unidade: Unidade X
+### 2. Crie e ative o ambiente virtual
 
-Objetivo Estratégico: Aumentar a eficiência operacional...
+**Windows:**
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
 
-Perspectiva: Interna
+**Linux/MacOS:**
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+### 3. Instale as dependências
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Configure as variáveis de ambiente
+
+Crie um arquivo `.env` na raiz do projeto e adicione as credenciais necessárias para o acesso à API do Gemini e demais serviços do Google. Por exemplo:
+
+```
+GOOGLE_API_KEY="API_KEY_GERADA"
 ```
 
 ---
 
-## 🛠️ Manutenção e Atualização
+## Como Rodar a API
 
-### Atualização do VectorStore
-- Sempre que o arquivo `arquivo.md` for alterado, o sistema detectará as mudanças e recriará automaticamente o vetor FAISS.
+Após instalar as dependências e configurar o `.env`, execute:
 
-### Adicionando Novas Funcionalidades
-- **Prompt**: Edite o arquivo `prompt_template.py` para ajustar o formato ou mensagem padrão.
-- **Modelos**: Atualize o modelo no arquivo `pipeline.py` para utilizar novas versões ou modelos diferentes da OpenAI.
+```bash
+uvicorn main_api:app --host 0.0.0.0 --port 8001 --reload
+```
 
----
-
-## 🧑‍💻 Contribuindo
-
-Contribuições são sempre bem-vindas! Para contribuir:
-
-1. Faça um fork do repositório.
-2. Crie uma nova branch:
-   ```bash
-   git checkout -b minha-nova-funcionalidade
-   ```
-3. Faça suas alterações e envie um pull request.
+Por padrão, a API estará disponível em [http://127.0.0.1:8001](http://127.0.0.1:8001).
 
 ---
 
-## 📞 Suporte
+## Como acessar a documentação (Swagger)
 
-Se você tiver dúvidas ou precisar de suporte, sinta-se à vontade para abrir uma [issue](https://github.com/LoboProgrammingg/IA-MARKDOWN/issues).
+O FastAPI fornece uma interface interativa de documentação e teste dos endpoints (Swagger UI).
+
+Acesse:
+
+- [http://127.0.0.1:8001/docs](http://127.0.0.1:8001/docs) – Swagger UI
+- [http://127.0.0.1:8001/redoc](http://127.0.0.1:8001/redoc) – ReDoc
+
+---
+
+## Sobre o FastAPI e o Uvicorn
+
+- **FastAPI**:
+  - Framework moderno, rápido (alta performance), fácil de usar e robusto para criação de APIs RESTful.
+  - Utiliza tipagem do Python para validação de dados automática via Pydantic.
+  - Gera documentação automática dos endpoints.
+
+- **Uvicorn**:
+  - Servidor ASGI de alta performance, recomendado para rodar aplicações FastAPI em produção ou desenvolvimento.
+  - Suporta recursos assíncronos (async/await), ideal para aplicações modernas e escaláveis.
+
+---
+
+## Produção
+
+Para rodar em produção, recomenda-se executar o Uvicorn com um servidor como Gunicorn:
+
+```bash
+gunicorn -k uvicorn.workers.UvicornWorker main_api:app --host 0.0.0.0 --port 8001
+```
+
+---
+
+## Suporte
+
+Em caso de dúvidas entre em contato comigo por E-mail:
++ matheusloboo2001@gmail.com
+
+---
