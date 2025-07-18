@@ -1,10 +1,10 @@
 {
     "INICIATIVAS": {
-        "search_type": "string",
-        "k": 0,
-        "fetch_k": 0,
+        "search_type": "mmr",
+        "k": 6,
+        "fetch_k": 19,
         "rerank_top_n": 0,
-        "use_reranker": true
+        "use_reranker": false
     },
     "IESGO": {
         "search_type": "mmr",
