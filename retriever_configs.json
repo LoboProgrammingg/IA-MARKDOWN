@@ -1,0 +1,100 @@
+{
+    "INICIATIVAS": {
+        "search_type": "string",
+        "k": 0,
+        "fetch_k": 0,
+        "rerank_top_n": 0,
+        "use_reranker": true
+    },
+    "IESGO": {
+        "search_type": "mmr",
+        "k": 6,
+        "fetch_k": 25,
+        "rerank_top_n": 3,
+        "use_reranker": false
+    },
+    "IMGG": {
+        "search_type": "mmr",
+        "k": 2,
+        "fetch_k": 15,
+        "rerank_top_n": 2,
+        "use_reranker": false
+    },
+    "INDICADORES": {
+        "search_type": "mmr",
+        "k": 4,
+        "fetch_k": 18,
+        "rerank_top_n": 2,
+        "use_reranker": false
+    },
+    "DIAGNOSTICO_IMGG": {
+        "search_type": "mmr",
+        "k": 8,
+        "fetch_k": 25,
+        "rerank_top_n": 3,
+        "use_reranker": false
+    },
+    "DIAGNOSTICO_IESGO": {
+        "search_type": "mmr",
+        "k": 8,
+        "fetch_k": 25,
+        "rerank_top_n": 3,
+        "use_reranker": false
+    },
+    "OMS": {
+        "search_type": "mmr",
+        "k": 4,
+        "fetch_k": 18,
+        "rerank_top_n": 2,
+        "use_reranker": false
+    },
+    "PADROES": {
+        "search_type": "mmr",
+        "k": 4,
+        "fetch_k": 18,
+        "rerank_top_n": 2,
+        "use_reranker": false
+    },
+    "PTA": {
+        "search_type": "mmr",
+        "k": 4,
+        "fetch_k": 18,
+        "rerank_top_n": 2,
+        "use_reranker": false
+    },
+    "RISCOS": {
+        "search_type": "mmr",
+        "k": 4,
+        "fetch_k": 18,
+        "rerank_top_n": 2,
+        "use_reranker": false
+    },
+    "ESTATUTO_SOCIAL": {
+        "search_type": "mmr",
+        "k": 4,
+        "fetch_k": 10,
+        "rerank_top_n": 3,
+        "use_reranker": false
+    },
+    "ESTRUTURA_PROCESSOS": {
+        "search_type": "mmr",
+        "k": 8,
+        "fetch_k": 25,
+        "rerank_top_n": 3,
+        "use_reranker": false
+    },
+    "REGIMENTO_INTERNO": {
+        "search_type": "mmr",
+        "k": 5,
+        "fetch_k": 45,
+        "rerank_top_n": 3,
+        "use_reranker": false
+    },
+    "GERENTES": {
+        "search_type": "mmr",
+        "k": 6,
+        "fetch_k": 24,
+        "rerank_top_n": 3,
+        "use_reranker": false
+    }
+}

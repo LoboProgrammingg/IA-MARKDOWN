@@ -21,8 +21,3 @@ VECTORSTORE_DIR = 'vectorstore'
 FAISS_INDEX_PATH = os.path.join(VECTORSTORE_DIR, 'faiss_index')
 
 USERS_FILE = 'user.json'
-
-PGVECTOR_CONNECTION_STRING = os.getenv(
-    'PGVECTOR_CONNECTION_STRING',
-    'postgresql+psycopg2://mti:mti123@localhost:5432/mti_db',
-)

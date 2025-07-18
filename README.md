@@ -80,135 +80,225 @@ project/
 │   └── section.py
 ```
 
-# API de IA com FastAPI utilizando Gemini LLM
+Estrutura de Projeto Profissional para API de IA
+Esta estrutura organiza o projeto em camadas lógicas (API, Lógica de Negócio, Acesso a Dados), tornando-o escalável, testável e fácil de manter.
 
-Este projeto é uma API desenvolvida em Python utilizando o framework **FastAPI** integrada à LLM do Gemini, facilitando a criação de aplicações de Inteligência Artificial de maneira simples, performática e escalável.
+Visão Geral da Arquitetura
+api/: Contém toda a lógica da API web (FastAPI).
 
-## Sumário
+routers/: Define os endpoints, agrupados por funcionalidade (usuários, documentos, etc.). É a porta de entrada para as requisições.
 
-- [Descrição](#descrição)
-- [Tecnologias Utilizadas](#tecnologias-utilizadas)
-- [Requisitos](#requisitos)
-- [Instalação](#instalação)
-- [Como Rodar a API](#como-rodar-a-api)
-- [Como acessar a documentação (Swagger)](#como-acessar-a-documentação-swagger)
-- [Sobre o FastAPI e Uvicorn](#sobre-o-fastapi-e-uvicorn)
+schemas/: Contém os modelos Pydantic, que definem a "forma" dos dados que entram e saem da API, garantindo validação e documentação automática.
 
----
+crud/: Camada de "Create, Read, Update, Delete". Abstrai a lógica de manipulação dos dados, seja de um banco de dados de usuários ou de arquivos de configuração.
 
-## Descrição
+dependencies.py: Gerencia a injeção de dependências, como obter o usuário logado ou uma instância de um pipeline.
 
-Esta API expõe endpoints para interação com modelos de linguagem natural do Gemini, utilizando a robustez do **FastAPI** e diversas bibliotecas para manipulação e orquestração dos modelos. Ideal para aplicações que necessitam de processamento de linguagem natural, chatbots, assistentes virtuais, análise de texto, entre outros.
+main.py: Ponto de entrada que monta a aplicação FastAPI, incluindo os routers e middlewares.
 
----
+database/: Responsável pela interação com os dados brutos e os vectorstores.
 
-## Tecnologias Utilizadas
+metadata_split/: Contém seus scripts customizados para processar cada tipo de documento.
 
-- **FastAPI**: Framework web moderno e rápido para criação de APIs em Python.
-- **Uvicorn**: Servidor ASGI leve e de alta performance, utilizado para rodar aplicações FastAPI.
-- **google-genai** & **langchain**: Bibliotecas para integração com LLMs, especialmente Gemini.
-- **pydantic**: Validação de dados e criação de schemas.
-- **orjson**: Serialização/deserialização de JSON extremamente rápida.
-- **faiss-cpu**: Busca vetorial de alta performance.
-- Outras: `requests`, `python-dotenv`, `tiktoken`, `python-multipart`, `google-auth`, `google-api-core`.
+ingestion.py: Orquestra o processo de reindexação, usando seus scripts customizados.
 
----
+vectorstore_handler.py: Abstrai a criação e o carregamento dos vectorstores FAISS.
 
-## Requisitos
+retriever/ e pipeline/: Contêm a lógica principal da sua IA, agora configurável dinamicamente através de arquivos JSON gerenciados pela API.
 
-- Python 3.9 ou superior
-- Git (opcional para clonar o repositório)
+Arquivos de Configuração (.json): Armazenam os parâmetros dos retrievers e pipelines, permitindo alterações em tempo real via API sem a necessidade de reiniciar o servidor.
 
----
+Estrutura de Diretórios Final
+.
+├── api/
+│   ├── __init__.py
+│   ├── main.py
+│   ├── dependencies.py
+│   ├── security.py
+│   ├── crud/
+│   │   ├── __init__.py
+│   │   ├── user_crud.py
+│   │   ├── retriever_crud.py
+│   │   └── pipeline_crud.py
+│   ├── routers/
+│   │   ├── __init__.py
+│   │   ├── auth.py
+│   │   ├── chat.py
+│   │   ├── documents.py
+│   │   ├── users.py
+│   │   ├── retrievers.py
+│   │   ├── pipelines.py
+│   │   └── system.py
+│   └── schemas/
+│       ├── __init__.py
+│       ├── chat.py
+│       ├── document.py
+│       ├── user.py
+│       ├── retriever.py
+│       ├── pipeline.py
+│       └── system.py
+├── database/
+│   ├── __init__.py
+│   ├── ingestion.py
+│   ├── vectorstore_handler.py
+│   └── metadata_split/
+│       ├── markdown_gerente.py
+│       ├── markdown_indicadores.py
+│       └── ... (todos os seus outros processadores)
+├── pipeline/
+│   ├── __init__.py
+│   ├── config_manager.py
+│   ├── handler.py
+│   └── utils.py
+├── retriever/
+│   ├── __init__.py
+│   ├── config_manager.py
+│   ├── default_configs.py
+│   ├── retrievers.py
+│   └── section.py
+├── .env.example                # Arquivo de exemplo para variáveis de ambiente
+├── pipeline_configs.json       # Configurações dos pipelines
+├── retriever_configs.json      # Configurações dos retrievers
+├── requirements.txt            # Dependências do projeto
+└── README.md                   # Documentação principal do projeto
 
-## Instalação
+Visão Geral da Arquitetura
+api/: Contém toda a lógica da API web (FastAPI).
 
-### 1. Clone o repositório
+routers/: Define os endpoints, agrupados por funcionalidade (usuários, documentos, etc.). É a porta de entrada para as requisições.
+
+schemas/: Contém os modelos Pydantic, que definem a "forma" dos dados que entram e saem da API, garantindo validação e documentação automática.
+
+crud/: Camada de "Create, Read, Update, Delete". Abstrai a lógica de manipulação dos dados, seja de um banco de dados de usuários ou de arquivos de configuração.
+
+dependencies.py: Gerencia a injeção de dependências, como obter o usuário logado ou uma instância de um pipeline.
+
+main.py: Ponto de entrada que monta a aplicação FastAPI, incluindo os routers e middlewares.
+
+database/: Responsável pela interação com os dados brutos e os vectorstores.
+
+metadata_split/: Contém seus scripts customizados para processar cada tipo de documento.
+
+ingestion.py: Orquestra o processo de reindexação, usando seus scripts customizados.
+
+vectorstore_handler.py: Abstrai a criação e o carregamento dos vectorstores FAISS.
+
+retriever/ e pipeline/: Contêm a lógica principal da sua IA, agora configurável dinamicamente através de arquivos JSON gerenciados pela API.
+
+Arquivos de Configuração (.json): Armazenam os parâmetros dos retrievers e pipelines, permitindo alterações em tempo real via API sem a necessidade de reiniciar o servidor.
+
+Estrutura de Diretórios Final
+.
+├── api/
+│   ├── __init__.py
+│   ├── main.py
+│   ├── dependencies.py
+│   ├── security.py
+│   ├── crud/
+│   │   ├── __init__.py
+│   │   ├── user_crud.py
+│   │   ├── retriever_crud.py
+│   │   └── pipeline_crud.py
+│   ├── routers/
+│   │   ├── __init__.py
+│   │   ├── auth.py
+│   │   ├── chat.py
+│   │   ├── documents.py
+│   │   ├── users.py
+│   │   ├── retrievers.py
+│   │   ├── pipelines.py
+│   │   └── system.py
+│   └── schemas/
+│       ├── __init__.py
+│       ├── chat.py
+│       ├── document.py
+│       ├── user.py
+│       ├── retriever.py
+│       ├── pipeline.py
+│       └── system.py
+├── database/
+│   ├── __init__.py
+│   ├── ingestion.py
+│   ├── vectorstore_handler.py
+│   └── metadata_split/
+│       ├── markdown_gerente.py
+│       ├── markdown_indicadores.py
+│       └── ... (todos os seus outros processadores)
+├── pipeline/
+│   ├── __init__.py
+│   ├── config_manager.py
+│   ├── handler.py
+│   └── utils.py
+├── retriever/
+│   ├── __init__.py
+│   ├── config_manager.py
+│   ├── default_configs.py
+│   ├── retrievers.py
+│   └── section.py
+├── .env.example                # Arquivo de exemplo para variáveis de ambiente
+├── pipeline_configs.json       # Configurações dos pipelines
+├── retriever_configs.json      # Configurações dos retrievers
+├── requirements.txt            # Dependências do projeto
+└── README.md                   # Documentação principal do projeto
+
+Conteúdo dos Arquivos Principais
+A seguir, o conteúdo dos arquivos mais importantes, com documentação detalhada.
+
+README.md - Documentação Principal
+# API do Chatbot com RAG - Documentação do Projeto
+
+Esta é uma API robusta construída com FastAPI para servir um sistema de Inteligência Artificial baseado em RAG (Retrieval-Augmented Generation). A API permite interações de chat, gerenciamento de usuários, configuração dinâmica dos componentes de IA e reindexação da base de conhecimento em tempo real.
+
+## Arquitetura
+
+O projeto é organizado em uma arquitetura de camadas para garantir manutenibilidade e escalabilidade:
+
+- **Camada de API (`/api`)**: Responsável por expor os endpoints, lidar com requisições HTTP, validação de dados e autenticação.
+- **Camada de Lógica de Negócio (`/api/crud`)**: Contém a lógica para manipular os recursos da aplicação (usuários, configurações).
+- **Camada de IA (`/pipeline`, `/retriever`)**: Contém a lógica principal do sistema de RAG, incluindo a criação de pipelines e a recuperação de informações.
+- **Camada de Dados (`/database`)**: Gerencia o acesso aos dados, incluindo a ingestão de documentos e a interação com os vectorstores FAISS.
+
+## Funcionalidades
+
+- **Autenticação de Usuários**: Sistema completo com login, gerenciamento de perfil e controle de acesso baseado em funções (usuário/admin).
+- **Gerenciamento de Documentos**: Endpoints para adicionar e remover documentos (`.md`) da base de conhecimento.
+- **Reindexação Dinâmica**: Um endpoint (`/system/reindex`) que dispara um processo em background para recriar os vectorstores FAISS com base nos documentos atuais, tornando a IA ciente de novas informações sem reiniciar a aplicação.
+- **Configuração Dinâmica**: Endpoints para visualizar e **alterar em tempo real** os hiperparâmetros dos **Retrievers** (ex: `k`, `fetch_k`) e dos **Pipelines** (ex: `model`, `temperature`), com as alterações sendo salvas em arquivos `.json`.
+- **Chat**: Endpoint principal para interagir com a IA, utilizando memória de conversação por sessão.
+
+## Setup e Instalação
+
+### 1. Pré-requisitos
+
+- Python 3.10+
+- Um ambiente virtual (recomendado)
+
+### 2. Variáveis de Ambiente
+
+Crie um arquivo `.env` na raiz do projeto a partir do `.env.example` e preencha os valores:
 
 ```bash
-git clone https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git
-cd SEU_REPOSITORIO
-```
+# .env
+GEMINI_API_KEY="sua_chave_de_api_do_google_aqui"
+SECRET_KEY="uma_chave_secreta_forte_gerada_com_openssl_rand_hex_32"
 
-### 2. Crie e ative o ambiente virtual
-
-**Windows:**
-```bash
-python -m venv venv
-venv\Scripts\activate
-```
-
-**Linux/MacOS:**
-```bash
-python3 -m venv venv
-source venv/bin/activate
-```
-
-### 3. Instale as dependências
-
-```bash
+3. Instalação das Dependências
 pip install -r requirements.txt
-```
 
-### 4. Configure as variáveis de ambiente
+4. Executando a API
+uvicorn api.main:app --host 0.0.0.0 --port 8001 --reload
 
-Crie um arquivo `.env` na raiz do projeto e adicione as credenciais necessárias para o acesso à API do Gemini e demais serviços do Google. Por exemplo:
+A API estará disponível em http://localhost:8001. A documentação interativa (Swagger UI) pode ser acessada em http://localhost:8001/docs.
 
-```
-GOOGLE_API_KEY="API_KEY_GERADA"
-```
+Fluxo de Trabalho Típico
+Fazer Login: Use o endpoint POST /users/login com as credenciais de administrador (admin@example.com / a-very-secure-password) para obter um token de acesso.
 
----
+Autorizar: Na interface do Swagger (/docs), clique no botão "Authorize" e cole o token (ex: Bearer seu_token_aqui).
 
-## Como Rodar a API
+Adicionar Documento: Use POST /documents para adicionar um novo arquivo .md.
 
-Após instalar as dependências e configurar o `.env`, execute:
+Reindexar: Chame POST /system/reindex para que a IA processe o novo documento. Monitore os logs do servidor para ver o progresso.
 
-```bash
-uvicorn main_api:app --host 0.0.0.0 --port 8001 --reload
-```
+Ajustar Parâmetros: Use os endpoints PUT em /retrievers/configurations/{section} e /pipelines/configurations/{pipeline_name} para ajustar o comportamento da IA.
 
-Por padrão, a API estará disponível em [http://127.0.0.1:8001](http://127.0.0.1:8001).
-
----
-
-## Como acessar a documentação (Swagger)
-
-O FastAPI fornece uma interface interativa de documentação e teste dos endpoints (Swagger UI).
-
-Acesse:
-
-- [http://127.0.0.1:8001/docs](http://127.0.0.1:8001/docs) – Swagger UI
-- [http://127.0.0.1:8001/redoc](http://127.0.0.1:8001/redoc) – ReDoc
-
----
-
-## Sobre o FastAPI e o Uvicorn
-
-- **FastAPI**:
-  - Framework moderno, rápido (alta performance), fácil de usar e robusto para criação de APIs RESTful.
-  - Utiliza tipagem do Python para validação de dados automática via Pydantic.
-  - Gera documentação automática dos endpoints.
-
-- **Uvicorn**:
-  - Servidor ASGI de alta performance, recomendado para rodar aplicações FastAPI em produção ou desenvolvimento.
-  - Suporta recursos assíncronos (async/await), ideal para aplicações modernas e escaláveis.
-
----
-
-## Produção
-
-Para rodar em produção, recomenda-se executar o Uvicorn com um servidor como Gunicorn:
-
-```bash
-gunicorn -k uvicorn.workers.UvicornWorker main_api:app --host 0.0.0.0 --port 8001
-```
-
----
-
-## Suporte
-
-Em caso de dúvidas entre em contato comigo por E-mail:
-+ matheusloboo2001@gmail.com
-
----
+Conversar: Use POST /chat/multi para interagir com a IA, que agora possui o novo conhecimento e as novas configurações.
