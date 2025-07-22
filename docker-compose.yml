@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   db:
     image: pgvector/pgvector:pg16
@@ -13,6 +11,7 @@ services:
       POSTGRES_DB: ia_vector_db
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./init-keycloak.sql:/docker-entrypoint-initdb.d/init-keycloak.sql
 
   pgadmin:
     image: dpage/pgadmin4
@@ -26,5 +25,43 @@ services:
     depends_on:
       - db
 
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile  # Caminho relativo, não use absoluto!
+    container_name: ia_api
+    # Para desenvolvimento, use --reload (hot reload)
+    command: uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload
+    volumes:
+      - .:/app/IA-MARKDOWN  # Caminho relativo, compatível com Windows/Linux/Mac
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env  # Centraliza todas as variáveis sensíveis
+    depends_on:
+      - db
+      - keycloak
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.2
+    container_name: keycloak_ia
+    ports:
+      - "8080:8080"
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://db:5432/keycloak_db
+      KC_DB_USERNAME: keycloak_user
+      KC_DB_PASSWORD: keycloak_pass
+    command: start-dev
+    depends_on:
+      - db
+
 volumes:
   postgres_data:
+
+# IMPORTANTE: Execute este comando na MESMA PASTA onde está este docker-compose.yml
+# Exemplo (PowerShell):
+# cd C:\Users\8761744\UGGOV_IA_FUNCIONANDO\IA-MARKDOWN
+# $env:COMPOSE_BAKE="true"; docker compose up --build

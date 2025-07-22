@@ -5,7 +5,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from .vectorstore_handler import (
     create_vectorstore,
     get_vectorstore_path_by_name,
-    VECTORSTORE_DIR # Importa a constante atualizada
+    VECTORSTORE_DIR
 )
 
 # --- Importação dos Processadores Customizados ---
@@ -54,7 +54,6 @@ def process_and_ingest_documents():
     """
     print("🚀 Iniciando processo de reindexação para FAISS...")
 
-    # CORREÇÃO: Adiciona a lógica de limpeza para garantir uma reindexação limpa
     if os.path.exists(VECTORSTORE_DIR):
         print(f"🧹 Limpando diretório de vectorstore antigo: '{VECTORSTORE_DIR}'")
         shutil.rmtree(VECTORSTORE_DIR)
@@ -96,7 +95,6 @@ def process_and_ingest_documents():
                 print(f"   - 🟡 Nenhum chunk gerado para '{file_name}'. Pulando.")
                 continue
 
-            # A função get_vectorstore_path_by_name usará a nova constante VECTORSTORE_DIR
             vectorstore_path = get_vectorstore_path_by_name(vectorstore_name)
             create_vectorstore(chunks, vectorstore_path)
             

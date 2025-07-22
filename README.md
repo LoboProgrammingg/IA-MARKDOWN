@@ -194,10 +194,17 @@ Estrutura de Diretórios Final
 │   ├── main.py
 │   ├── dependencies.py
 │   ├── security.py
+│   ├── keycloak.py
+│   ├── response.py
+│   ├── settings.py
 │   ├── crud/
 │   │   ├── __init__.py
 │   │   ├── user_crud.py
+│   │   ├── prompt_crud.py
 │   │   ├── retriever_crud.py
+│   │   ├── template_crud.py
+│   │   ├── token_crud.py
+│   │   ├── user_crud.py
 │   │   └── pipeline_crud.py
 │   ├── routers/
 │   │   ├── __init__.py
@@ -207,12 +214,16 @@ Estrutura de Diretórios Final
 │   │   ├── users.py
 │   │   ├── retrievers.py
 │   │   ├── pipelines.py
+│   │   ├── contexts.py.py
+│   │   ├── templates.py
 │   │   └── system.py
 │   └── schemas/
 │       ├── __init__.py
 │       ├── chat.py
 │       ├── document.py
 │       ├── user.py
+│       ├── prompt.py
+│       ├── context.py
 │       ├── retriever.py
 │       ├── pipeline.py
 │       └── system.py
@@ -302,3 +313,69 @@ Reindexar: Chame POST /system/reindex para que a IA processe o novo documento. M
 Ajustar Parâmetros: Use os endpoints PUT em /retrievers/configurations/{section} e /pipelines/configurations/{pipeline_name} para ajustar o comportamento da IA.
 
 Conversar: Use POST /chat/multi para interagir com a IA, que agora possui o novo conhecimento e as novas configurações.
+
+## Autenticação e Autorização (Keycloak)
+
+A API utiliza **exclusivamente o Keycloak** para autenticação JWT e controle de acesso (RBAC).
+
+### Como obter um token JWT do Keycloak
+
+Faça uma requisição POST para:
+
+```
+http://<KEYCLOAK_HOST>/realms/<REALM>/protocol/openid-connect/token
+```
+
+Com os campos:
+- `grant_type=password`
+- `client_id=<CLIENT_ID>`
+- `client_secret=<CLIENT_SECRET>` (se necessário)
+- `username=<USUÁRIO>`
+- `password=<SENHA>`
+
+O retorno será um JSON com `access_token`.
+
+### Como usar o token nos endpoints protegidos
+
+Adicione o header:
+```
+Authorization: Bearer <access_token>
+```
+
+### RBAC
+- Endpoints sensíveis exigem roles específicos do Keycloak (ex: `admin`).
+
+---
+
+## Checklist de Segurança/Autenticação
+- [x] Toda autenticação JWT feita exclusivamente via Keycloak
+- [x] Validação de tokens com JWKS do Keycloak
+- [x] RBAC via roles do Keycloak (`require_roles`)
+- [x] Endpoint de refresh token faz proxy para o Keycloak
+- [x] Documentação dos endpoints atualizada para uso com Keycloak
+- [x] Login/logout local removidos
+
+## 🚀 Build Rápido com Docker Compose (COMPOSE_BAKE=true)
+
+Para builds mais rápidos e paralelos dos containers, utilize o modo BuildKit Bake:
+
+### Linux/Mac
+```sh
+COMPOSE_BAKE=true docker compose up --build
+```
+
+### Windows PowerShell
+```powershell
+$env:COMPOSE_BAKE="true"; docker compose up --build
+```
+
+### Checklist para build rápido
+- Certifique-se de que o Docker Desktop está com o BuildKit ativado (Configurações > Features in development > Use Docker Compose V2).
+- Use `COMPOSE_BAKE=true` sempre que for fazer builds locais.
+- Mantenha o Dockerfile otimizado (multi-stage, usuário não-root, etc).
+- Limpe imagens antigas periodicamente:
+  ```sh
+  docker system prune -af
+  ```
+
+---

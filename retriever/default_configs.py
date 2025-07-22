@@ -16,9 +16,7 @@ from database.vectorstore_handler import (
     get_gerentes_vectorstore,
 )
 
-# Estas são as configurações padrão/de fallback.
-# A API irá ler e escrever de um arquivo JSON, mas estes valores são usados
-# na primeira inicialização ou se o arquivo de configuração for corrompido.
+
 DEFAULT_RETRIEVER_CONFIGS = {
     Section.INICIATIVAS: (
         get_iniciativas_vectorstore,

@@ -1,49 +1,33 @@
-from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordRequestForm, HTTPAuthorizationCredentials
+from fastapi import APIRouter, Depends, HTTPException, status, Body
+from fastapi.security import HTTPAuthorizationCredentials
 from .. import security
-from ..crud import user_crud, token_crud
-from ..schemas.user import Token, TokenRefreshRequest
+from ..crud import token_crud
+from fastapi_limiter.depends import RateLimiter
+import httpx
+from api.settings import get_settings
 
 from ..dependencies import http_bearer_scheme
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
-@router.post("/login", response_model=Token, summary="Realizar login")
-def login(form_data: OAuth2PasswordRequestForm = Depends()):
-    user = user_crud.get_user_by_email(form_data.username)
-    if not user or not security.verify_password(form_data.password, user.hashed_password):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Email ou senha incorretos",
-        )
-    
-    user_data = {"sub": user.email}
-    access_token = security.create_access_token(data=user_data)
-    refresh_token = security.create_refresh_token(data=user_data)
-    
-    return {"access_token": access_token, "refresh_token": refresh_token}
-
-@router.post("/refresh", response_model=Token, summary="Atualizar Access Token")
-def refresh_access_token(request: TokenRefreshRequest):
-    payload = security.decode_refresh_token(request.refresh_token)
-    email: str = payload.get("sub")
-    
-    user = user_crud.get_user_by_email(email)
-    if not user:
-        raise HTTPException(status_code=401, detail="Usuário do token não encontrado")
-        
-    user_data = {"sub": user.email}
-    new_access_token = security.create_access_token(data=user_data)
-    new_refresh_token = security.create_refresh_token(data=user_data)
-    
-    return {"access_token": new_access_token, "refresh_token": new_refresh_token}
-
-@router.post("/logout", summary="Realizar logout")
-def logout(credentials: HTTPAuthorizationCredentials = Depends(http_bearer_scheme)):
-    token = credentials.credentials
-    payload = security.decode_access_token(token)
-    jti = payload.get("jti")
-    if jti:
-        token_crud.add_token_to_denylist(jti)
-    
-    return {"message": "Logout bem-sucedido"}
+@router.post(
+    "/refresh",
+    summary="Atualizar Access Token via Keycloak",
+    description="Recebe um refresh_token e retorna novo access_token/refresh_token do Keycloak. Use este endpoint para renovar o token sem precisar relogar. Respostas de erro: 400 (payload inválido), 401 (refresh token inválido ou expirado)."
+)
+def refresh_token_proxy(payload: dict = Body(...)):
+    refresh_token = payload.get("refresh_token")
+    if not refresh_token:
+        raise HTTPException(status_code=400, detail="refresh_token é obrigatório.")
+    settings = get_settings()
+    token_url = f"{settings.keycloak_url}/realms/{settings.keycloak_realm}/protocol/openid-connect/token"
+    data = {
+        "grant_type": "refresh_token",
+        "refresh_token": refresh_token,
+        "client_id": settings.keycloak_client_id,
+        "client_secret": settings.keycloak_client_secret,
+    }
+    response = httpx.post(token_url, data=data)
+    if response.status_code != 200:
+        raise HTTPException(status_code=401, detail="Refresh token inválido ou expirado.")
+    return response.json()

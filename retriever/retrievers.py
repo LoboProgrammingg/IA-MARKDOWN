@@ -5,7 +5,7 @@ from langchain_community.document_compressors.flashrank_rerank import FlashrankR
 
 from .section import Section
 from . import config_manager
-from .default_configs import DEFAULT_RETRIEVER_CONFIGS # Importa os padrões para obter os getters
+from .default_configs import DEFAULT_RETRIEVER_CONFIGS
 
 prompt_template = PromptTemplate(
     input_variables=['section', 'question', 'connections'],
@@ -61,7 +61,6 @@ def create_retriever(
         base_compressor=compressor, base_retriever=base_retriever
     )
 
-# Cache para instâncias de retriever para evitar recriação desnecessária
 _retriever_cache = {}
 
 def get_retriever(section: Section):

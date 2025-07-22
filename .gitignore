@@ -2,10 +2,10 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+__pycache__
 *.db
 *.sqlite3
 *.log
-.env
 node_modules/
 dist/
 build/
@@ -14,5 +14,5 @@ build/
 .DS_Store
 /venv
 venv
-env
 .env
+backend_persona.xml

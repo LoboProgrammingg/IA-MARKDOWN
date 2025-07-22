@@ -5,19 +5,20 @@ from ..schemas.pipeline import (
     PipelineConfigUpdate,
     PipelineName,
 )
-from ..dependencies import get_current_admin_user
 from ..crud import pipeline_crud
+from api.keycloak import require_roles
 
 router = APIRouter(
     prefix="/pipelines",
     tags=["Pipelines"],
-    dependencies=[Depends(get_current_admin_user)],
+    dependencies=[Depends(require_roles("admin"))],
 )
 
 @router.get(
     "/configurations",
     response_model=AllPipelineConfigsResponse,
-    summary="Listar configurações de todos os pipelines (Admin Only)",
+    summary="Listar configurações de todos os pipelines",
+    description="Lista todas as configurações de pipelines disponíveis. Protegido por JWT e requer role 'admin'. Respostas de erro: 401 (não autenticado), 403 (sem permissão)."
 )
 def get_pipeline_configurations():
     configs = pipeline_crud.get_all_configs()
@@ -26,7 +27,8 @@ def get_pipeline_configurations():
 @router.get(
     "/configurations/{pipeline_name}",
     response_model=PipelineConfig,
-    summary="Obter configuração de um pipeline específico (Admin Only)",
+    summary="Obter configuração de um pipeline específico",
+    description="Obtém a configuração de um pipeline pelo nome. Protegido por JWT e requer role 'admin'. Respostas de erro: 401 (não autenticado), 403 (sem permissão), 404 (pipeline não encontrado)."
 )
 def get_single_pipeline_configuration(pipeline_name: PipelineName):
     config = pipeline_crud.get_config_by_name(pipeline_name)
@@ -40,7 +42,8 @@ def get_single_pipeline_configuration(pipeline_name: PipelineName):
 @router.put(
     "/configurations/{pipeline_name}",
     response_model=PipelineConfig,
-    summary="Atualizar a configuração de um pipeline (Admin Only)",
+    summary="Atualizar a configuração de um pipeline",
+    description="Atualiza a configuração de um pipeline pelo nome. Protegido por JWT e requer role 'admin'. Respostas de erro: 401 (não autenticado), 403 (sem permissão), 404 (pipeline não encontrado)."
 )
 def update_pipeline_configuration(
     pipeline_name: PipelineName,

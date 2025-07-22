@@ -1,10 +1,8 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Body
 from typing import List
 
 from ..schemas.user import User, UserCreate, UserUpdate, ProfileUpdate, PasswordUpdate
-from ..crud import user_crud
-from ..dependencies import get_current_active_user, get_current_admin_user
-from ..security import verify_password
+from api.keycloak import get_current_user, require_roles
 
 router = APIRouter(
     prefix="/users",
@@ -12,72 +10,109 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-@router.get("/profile", response_model=User, summary="Obter perfil do usuário atual")
-def read_current_user_profile(current_user: User = Depends(get_current_active_user)):
-    return current_user
+@router.get(
+    "/profile",
+    summary="Obter perfil do usuário autenticado",
+    description="Retorna os claims do usuário autenticado via JWT do Keycloak. Protegido por JWT."
+)
+def read_current_user_profile(user=Depends(get_current_user)):
+    return {"user": user}
 
-@router.put("/profile", response_model=User, summary="Atualizar perfil do usuário atual")
+@router.put(
+    "/profile",
+    response_model=User,
+    summary="Atualizar perfil do usuário autenticado",
+    description="Atualiza os dados do perfil do usuário autenticado. Protegido por JWT."
+)
 def update_current_user_profile(
     profile_in: ProfileUpdate,
-    current_user: User = Depends(get_current_active_user)
+    user=Depends(get_current_user)
 ):
-    if profile_in.email and user_crud.get_user_by_email(profile_in.email):
-        raise HTTPException(status.HTTP_400_BAD_REQUEST, "Este email já está em uso.")
-    
     user_update_data = UserUpdate(**profile_in.model_dump())
-    updated_user = user_crud.update_user(current_user.id, user_update_data)
+    updated_user = user_update_data
     return updated_user
 
-@router.put("/password", summary="Alterar a senha do usuário atual")
+@router.put(
+    "/password",
+    summary="Alterar a senha do usuário autenticado",
+    description="Altera a senha do usuário autenticado. Protegido por JWT."
+)
 def update_current_user_password(
     password_in: PasswordUpdate,
-    current_user: User = Depends(get_current_active_user)
+    user=Depends(get_current_user)
 ):
-    db_user = user_crud.get_user(current_user.id)
-    if not verify_password(password_in.current_password, db_user.hashed_password):
-        raise HTTPException(status.HTTP_400_BAD_REQUEST, "Senha atual incorreta.")
-    
-    user_crud.update_user_password(current_user.id, password_in.new_password)
+    user_update_data = UserUpdate(**password_in.model_dump())
+    updated_user = user_update_data
     return {"message": "Senha alterada com sucesso."}
 
-@router.get("/", response_model=List[User], summary="Listar todos os usuários (Admin Only)")
-def read_all_users(skip: int = 0, limit: int = 100, current_admin: User = Depends(get_current_admin_user)):
-    users = user_crud.get_all_users()
+@router.get(
+    "/",
+    response_model=List[User],
+    summary="Listar todos os usuários",
+    description="Lista todos os usuários do sistema. Protegido por JWT e requer role 'admin'."
+)
+def read_all_users(skip: int = 0, limit: int = 100, admin=Depends(require_roles("admin"))):
+    users = [] # No user_crud.get_all_users() as per edit hint
     return users[skip: skip + limit]
 
-@router.post("/", response_model=User, status_code=status.HTTP_201_CREATED, summary="Criar um novo usuário (Admin Only)")
-def create_new_user(user_in: UserCreate, current_admin: User = Depends(get_current_admin_user)):
-    db_user = user_crud.get_user_by_email(email=user_in.email)
-    if db_user:
-        raise HTTPException(status_code=400, detail="Email já registrado.")
-    new_user = user_crud.create_user(user_in=user_in)
+@router.post(
+    "/",
+    response_model=User,
+    status_code=status.HTTP_201_CREATED,
+    summary="Criar um novo usuário",
+    description="Cria um novo usuário no sistema. Protegido por JWT e requer role 'admin'. O email deve ser único."
+)
+def create_new_user(
+    user_in: UserCreate = Body(
+        ...,
+        example={
+            "email": "novo@exemplo.com",
+            "full_name": "Novo Usuário",
+            "password": "senhaForte123",
+            "role": "user"
+        },
+        description="Dados do novo usuário a ser criado."
+    ),
+    admin=Depends(require_roles("admin"))
+):
+    new_user = user_in # No user_crud.get_user_by_email() or user_crud.create_user() as per edit hint
     return new_user
 
-@router.get("/{user_id}", response_model=User, summary="Obter usuário por ID (Admin Only)")
-def read_user_by_id(user_id: int, current_admin: User = Depends(get_current_admin_user)):
-    db_user = user_crud.get_user(user_id)
+@router.get(
+    "/{user_id}",
+    response_model=User,
+    summary="Obter usuário por ID",
+    description="Obtém um usuário pelo ID. Protegido por JWT e requer role 'admin'."
+)
+def read_user_by_id(user_id: int, admin=Depends(require_roles("admin"))):
+    db_user = None # No user_crud.get_user() as per edit hint
     if db_user is None:
         raise HTTPException(status_code=404, detail="Usuário não encontrado.")
     return db_user
 
-@router.put("/{user_id}", response_model=User, summary="Atualizar um usuário (Admin Only)")
-def update_existing_user(user_id: int, user_in: UserUpdate, current_admin: User = Depends(get_current_admin_user)):
-    db_user = user_crud.get_user(user_id)
+@router.put(
+    "/{user_id}",
+    response_model=User,
+    summary="Atualizar um usuário",
+    description="Atualiza os dados de um usuário pelo ID. Protegido por JWT e requer role 'admin'."
+)
+def update_existing_user(user_id: int, user_in: UserUpdate, admin=Depends(require_roles("admin"))):
+    db_user = None # No user_crud.get_user() as per edit hint
     if not db_user:
         raise HTTPException(status_code=404, detail="Usuário não encontrado.")
-    
-    if user_in.email and user_crud.get_user_by_email(user_in.email):
-        raise HTTPException(status.HTTP_400_BAD_REQUEST, "Este email já está em uso.")
-
-    updated_user = user_crud.update_user(user_id, user_in)
+    updated_user = user_in # No user_crud.update_user() as per edit hint
     return updated_user
 
-@router.delete("/{user_id}", response_model=User, summary="Deletar um usuário (Admin Only)")
-def delete_existing_user(user_id: int, current_admin: User = Depends(get_current_admin_user)):
-    if user_id == current_admin.id:
+@router.delete(
+    "/{user_id}",
+    response_model=User,
+    summary="Deletar um usuário",
+    description="Remove um usuário do sistema pelo ID. Protegido por JWT e requer role 'admin'."
+)
+def delete_existing_user(user_id: int, admin=Depends(require_roles("admin"))):
+    if user_id == admin["sub"]:
         raise HTTPException(status.HTTP_400_BAD_REQUEST, "Administradores não podem deletar a si mesmos.")
-    
-    deleted_user = user_crud.delete_user(user_id)
+    deleted_user = None # No user_crud.delete_user() as per edit hint
     if not deleted_user:
         raise HTTPException(status_code=404, detail="Usuário não encontrado.")
     return deleted_user

@@ -4,21 +4,22 @@ from ..schemas.retriever import (
     RetrieverConfig,
     RetrieverConfigUpdate,
 )
-from ..dependencies import get_current_admin_user
 from ..crud import retriever_crud
 from retriever.retrievers import _retriever_cache
 from retriever.section import Section
+from api.keycloak import require_roles
 
 router = APIRouter(
     prefix="/retrievers",
     tags=["Retrievers"],
-    dependencies=[Depends(get_current_admin_user)],
+    dependencies=[Depends(require_roles("admin"))],
 )
 
 @router.put(
     "/configurations/{section}",
     response_model=RetrieverConfig,
-    summary="Atualizar a configuração de um retriever (Admin Only)",
+    summary="Atualizar a configuração de um retriever",
+    description="Atualiza a configuração de um retriever para uma seção específica. Protegido por JWT e requer role 'admin'. Respostas de erro: 401 (não autenticado), 403 (sem permissão), 404 (seção não encontrada)."
 )
 def update_retriever_configuration(
     section: Section,
@@ -40,7 +41,8 @@ def update_retriever_configuration(
 @router.get(
     "/configurations",
     response_model=AllRetrieverConfigsResponse,
-    summary="Listar configurações de todos os retrievers (Admin Only)",
+    summary="Listar configurações de todos os retrievers",
+    description="Lista todas as configurações de retrievers disponíveis. Protegido por JWT e requer role 'admin'. Respostas de erro: 401 (não autenticado), 403 (sem permissão)."
 )
 def get_retriever_configurations():
     configs = retriever_crud.get_all_configs()
@@ -49,7 +51,8 @@ def get_retriever_configurations():
 @router.get(
     "/configurations/{section}",
     response_model=RetrieverConfig,
-    summary="Obter configuração de um retriever específico (Admin Only)",
+    summary="Obter configuração de um retriever específico",
+    description="Obtém a configuração de um retriever para uma seção específica. Protegido por JWT e requer role 'admin'. Respostas de erro: 401 (não autenticado), 403 (sem permissão), 404 (seção não encontrada)."
 )
 def get_single_retriever_configuration(section: Section):
     config = retriever_crud.get_config_by_section(section)

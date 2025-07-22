@@ -195,3 +195,114 @@ Logout Seguro e Efetivo: JWTs por natureza são "stateless" (sem estado), o que 
 Segredos Separados: Usamos chaves secretas diferentes para assinar os access_token e refresh_token. Isso é uma camada extra de segurança. Se a chave do access token fosse comprometida, a chave do refresh token (que é mais poderosa) permaneceria segura.
 
 Em resumo, você agora tem um sistema de autenticação que é ao mesmo tempo muito seguro e amigável para o usuário final, exatamente como as grandes aplicações do mercado funcionam.
+
+## Checklist de Melhoria e Padrões FastAPI
+
+- [x] Centralização de configurações sensíveis e variáveis de ambiente em `settings.py` usando Pydantic/BaseSettings
+- [x] Padronização de todas as respostas da API (sucesso e erro) usando schemas Pydantic e utilitário de resposta padrão
+- [x] Implementação de tratamento global de erros (exception handlers) para HTTPException, ValidationError e erros inesperados
+- [x] Adição de exemplos e descrições detalhadas nos principais schemas Pydantic e endpoints
+- [x] Criação do endpoint `/health` para monitoramento e verificação de status da API
+- [x] Configuração do CORS para aceitar apenas domínios do frontend em produção (ajustável via settings)
+- [ ] Adição de rate limiting nos endpoints sensíveis
+- [ ] Substituição de prints por logging estruturado
+- [ ] Criação de testes automatizados para os principais endpoints
+- [ ] Revisão de proteção de endpoints (autenticação e autorização por role)
+- [ ] Adição de paginação e filtros nos endpoints de listagem
+- [ ] Padronização e documentação de respostas de erro (schema comum para erros)
+
+## Changelog das Implementações
+
+### Centralização de Configurações
+- Criado `settings.py` usando Pydantic/BaseSettings para centralizar variáveis sensíveis e de ambiente.
+- Permite fácil ajuste de configurações para diferentes ambientes (dev/prod).
+
+### Padronização de Respostas
+- Criado `responses.py` com schemas `ApiResponse` e `ApiError`.
+- Funções utilitárias para respostas padronizadas de sucesso e erro.
+- Todos os endpoints e handlers globais agora usam esse padrão.
+
+### Tratamento Global de Erros
+- Adicionados exception handlers para `HTTPException`, `RequestValidationError` e erros inesperados.
+- Todas as respostas de erro seguem o padrão `ApiError`.
+
+### Documentação e Exemplos
+- Adicionados exemplos e descrições detalhadas nos principais schemas Pydantic (`User`, `Token`, etc).
+- Endpoints importantes agora possuem `summary`, `description` e exemplos de payload.
+
+### Endpoint de Healthcheck
+- Criado endpoint `/health` para monitoramento automatizado.
+- Retorna resposta padronizada indicando se a API está saudável.
+
+### Configuração de CORS
+- Agora o CORS é configurável via variável de ambiente `CORS_ALLOWED_ORIGINS`.
+- Permite restringir origens em produção e liberar em desenvolvimento.
+
+## Configuração de CORS (Cross-Origin Resource Sharing)
+
+A API permite configurar as origens permitidas para requisições CORS via variável de ambiente `CORS_ALLOWED_ORIGINS`.
+
+- Para desenvolvimento, use `*` para liberar todas as origens:
+  
+  ```env
+  CORS_ALLOWED_ORIGINS=*
+  ```
+- Para produção, defina os domínios do seu frontend separados por vírgula:
+  
+  ```env
+  CORS_ALLOWED_ORIGINS=https://meufrontend.com,https://outro.com
+  ```
+
+A configuração é lida automaticamente pelo `settings.py` e aplicada no `main.py`.
+
+## Configuração do Redis para Rate Limiting
+
+A API utiliza o Redis para controle de rate limiting (limite de requisições por IP/usuário).
+
+- Para desenvolvimento local, use:
+  ```env
+  REDIS_URL=redis://localhost:6379/0
+  ```
+- Para produção na Google Cloud Platform, utilize o endpoint do Redis gerenciado (memorystore) fornecido pelo GCP:
+  ```env
+  REDIS_URL=redis://<ENDERECO_DO_REDIS_GCP>:6379/0
+  ```
+
+A configuração é lida automaticamente pelo `settings.py`.
+
+## Rate Limiting (Limite de Requisições)
+
+A API utiliza rate limiting para proteger endpoints sensíveis contra abuso e ataques de força bruta.
+
+- O endpoint `/auth/login` está limitado a 5 tentativas por minuto por IP.
+- O controle é feito via Redis e FastAPI-Limiter.
+- Para ajustar o limite, altere o parâmetro `RateLimiter(times=5, seconds=60)` no endpoint desejado.
+
+O rate limiting é inicializado automaticamente na inicialização da API, usando a configuração de Redis definida em `settings.py`.
+
+## Logging Estruturado (Cloud/GCP Friendly)
+
+A API utiliza o módulo `logging` do Python para registrar logs de inicialização, avisos e erros.
+
+- Em produção (`ENVIRONMENT=production`), os logs são emitidos em formato JSON, compatível com Stackdriver Logging (Google Cloud Logging).
+- Em desenvolvimento, os logs são emitidos em texto simples para facilitar leitura local.
+- Todos os prints foram substituídos por `logging.info`, `logging.warning` ou `logging.exception`.
+
+Para customizar o formato ou o nível de logging, ajuste a configuração no início do arquivo `main.py`.
+
+## Testes Automatizados
+
+A API possui testes automatizados usando `pytest`, `httpx` e `pytest-asyncio`.
+
+- Os testes estão localizados na pasta `tests/`.
+- Para rodar todos os testes, execute:
+  ```bash
+  pytest
+  ```
+- Os testes cobrem endpoints principais como `/` (root), `/health` e podem ser expandidos para autenticação, criação de usuário, etc.
+
+Para adicionar novos testes, crie arquivos na pasta `tests/` seguindo o padrão `test_*.py`.
+
+---
+
+As próximas implementações seguirão este checklist e serão documentadas aqui conforme avançarmos.
